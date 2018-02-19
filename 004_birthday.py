@@ -18,4 +18,10 @@ print(message)
 
 # 2.5.2 该编写什么样的注释 page 28
 
+# 2.6 Python 之禅 page 28
+
+# 要获悉有关编写优秀Python代码的指导原则,只需在解释器中执行命令import this。
+
+# 第3章 列表简介 page 31
+
 
