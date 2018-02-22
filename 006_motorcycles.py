@@ -32,7 +32,7 @@ motorcycles = ['honda', 'yamaha', 'suzuki']
 motorcycles.insert(0, 'ducati')
 print(motorcycles)
 
-# 3.2.3 从列表中删除元素
+# 3.2.3 从列表中删除元素 page 35
 
 # 1. 使用del语句删除元素
 
