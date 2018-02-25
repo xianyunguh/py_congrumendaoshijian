@@ -15,3 +15,16 @@ while True:
 注意在任何Python循环中都可使用break语句。
 例如,可使用break语句来退出遍历列表或字典的for循环。
 '''
+
+# 7.2.5 在循环中使用 continue  page 108
+
+current_number = 0
+
+while current_number < 10:
+    current_number += 1
+
+    if current_number % 2 == 0:
+        continue
+
+    print(current_number)
+
