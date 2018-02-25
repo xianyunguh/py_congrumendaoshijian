@@ -67,6 +67,63 @@ if 'extra cheese' in requested_toppings:
 print("\nFinished making your pizza!")
 
 
+# 5.4 使用 if 语句处理列表 page 76
+
+# 5.4.1 检查特殊元素
+
+requested_toppings = ['mushrooms', 'green peppers', 'extra cheese']
+
+for requested_topping in requested_toppings:
+    print("Adding " + requested_topping + ".")
+
+print("\nFinished making your pizza!")
+
+#
+
+requested_toppings = ['mushrooms', 'green peppers', 'extra cheese']
+
+for requested_topping in requested_toppings:
+    if requested_topping == 'green peppers':
+        print("Sorry, we are out of green peppers right now.")
+    else:
+        print("Adding " + requested_topping + ".")
+
+print("\nFinished making your pizza!")
+
+# 5.4.2 确定列表不是空的 page 78
+
+print('*'*80)
+requested_toppings = []
+
+if requested_toppings:  # 如果列表为空，则返回False
+    for requested_topping in requested_toppings:
+        print("Adding " + requested_topping + ".")
+        print("\nFinished making your pizza!")
+else:
+    print("Are you sure you want a plain pizza?")
+
+# 5.4.3 使用多个列表 page 78
+
+available_toppings = ['mushrooms', 'olives', 'green peppers',
+                      'pepperoni', 'pineapple', 'extra cheese']
+requested_toppings = ['mushrooms', 'french fries', 'extra cheese']
+
+for requested_topping in requested_toppings:
+    if requested_topping in available_toppings:
+        print("Adding " + requested_topping + ".")
+    else:
+        print("Sorry, we don't have " + requested_topping + ".")
+    print("\nFinished making your pizza!")
+
+# 5.5 设置 if 语句的格式 page 80
+
+'''
+在条件测试的格式设置方面, PEP 8提供的唯一建议是,在诸如 ==、>=和<= 
+等比较运算符两边各添加一个空格,例如,if age < 4:要比 if age<4: 好。
+
+'''
+
+
 
 
 
