@@ -1,0 +1,328 @@
+3.3 apt终端命令
+apt是 Advanced Packaging Tool , 是Ubuntu下的安装包管理工具
+#1.安装软件
+$ sudo apt install 软件名
+
+#2. 卸载软件
+$ sudo apt remove 软件名
+
+#3. 更新可用软件包列表
+$ sudo apt update
+
+#4. 更新已安装的包
+$ sudo apt upgrate
+
+-------安装常用工具
+提示：apt命令，如果输入的软件没有安装，系统会提示apt命令的使用格式
+python程序员：
+$ sudo apt install ipython (python交互式工具）
+$ sudo apt install ipython3
+$ sudo apt install python-pip (python包管理工具)
+$ sudo apt install python3-pip
+
+安装ssh服务器
+sudo apt install openssh-server
+
+-------删除不使用的软件
+$ sudo apt remove libreoffice-common (删除libreoffice)
+$ sudo apt remove unity-webapps-common (删除Amazon)
+
+-------deb安装格式
+deb是debian Linux的安装格式，在ubuntu中同样可以使用。格式如下：
+$ sudo dpkg -i <package.deb>  （软件包名称）
+
+谷歌浏览器的安装
+1.从https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+2.在终端中执行以下命令：
+$ sudo apt install libappindicator1 libindicator7 (先安装谷歌浏览器的软件包）
+$ sudo dpkg -i google-chrome-stable_current_amd64.deb
+$ sudo apt -f install （-f 参数修复已安装好的各软件包间的依赖关系）
+
+搜狗输入法的安装
+fcitx被称为 小企鹅输入法，是一个以GPL方式发布的输入法平台，可以通过安装引擎支持多种输入法。它的优点是，短小精悍、跟程序的妆容性比较好。
+1.将 键盘输入未能系统修改为fcitx
+2.访问http://pinyin.sogou.com/linux/下载安装文件
+3.执行以下命令：
+$ sudo dpkg -i sogoupinyin_2.1.0.0086_amd64.deb
+$ sudo apt -f install
+提示：安装输入法后，需要重新启动系统
+
+-----常用Linux命令：
+ls  (list 查看当前文件夹下的内容）
+pwd  （print work directory  查看当前所在文件夹）
+cd [目录名]  (change directory  切换文件夹）
+touch [文件名]  (如果文件不存在，新建文件）
+mkdir [目录名]  (make directory  创建目录）
+rm [文件名] (remove  删除指定的文件名）
+clear  (clear 清屏）
+rm -r [目录名] (删除指定的目录）
+
+------放大缩小终端窗口字体大小
+ctrl+shift+ = 放大
+ctrl+ -  缩小
+
+提示：Linux命令是区别大小写的
+
+------终端命令格式
+command [-options] [parameter]
+其中：
+command ： 命令名
+[-options] ：选项
+[parameter] ：传给命令的参数
+
+-----查阅命令帮助
+command --help   显示简单的帮助
+man command       查阅命令的使用手册，man是manual的缩写
+使用man时的操作键：
+空格键   显示手册页的下一屏
+Enter键  一次滚动手册页的一行
+b        回滚一屏
+f        前滚一屏
+q        退出
+/word    搜索字符串
+
+-----ls命令说明
+Linux文件或目录名称最长256个字符
+以 . 开头的文件为隐藏文件，需要 -a 参数才能显示
+如果要建立一个隐藏的文件或文件夹只需要在文件名前加 . 即可
+-l 以列表方式显示文件的详细信息
+
+----通配符的使用
+*  代表任意个数个字符，也可以是0个
+？ 代表任意一个字符，至少1个
+[] 表示可以匹配字符组中的任一个
+[abc] 匹配a,b,c中的任意一个
+[a-f] 匹配从a到f范围内的任意一个字符 
+
+-h 配合-l以人性化的方式显示文件大小（单独使用是没意义的）
+
+----cd命令
+cd ~ 切换到当前用户的主目录（/home/用户目录） ，也可直接输入cd
+cd - 在最近两次工作目录之间来回切换
+cd ~/Documents/ 切换到家目录下的文档目录
+
+-----touch
+如果文件不存在，则创建一个空白文件。
+如果文件已经存在，则修改文件的末次修改日期
+
+-----mkdir
+-p  可以递归创建目录
+例如： mkdir -p a/b/c/d  (连接创建a,b,c,d四个目录）
+
+-----rm
+-f 强制删除，忽略不存在的文件无需提示
+-r 递归地删除目录下的内容，删除文件夹时必须加些参数
+Linux命令大全带实例
+
+-----拷贝和移动文件
+tree [目录名]  对应tree  以树状图列出文件目录结构 
+cp 源文件  目标文件  对应copy 复制文件或目录，注意：目录文件的路径是不能省略的。
+mv 源文件 目标文件  对应move 移动文件或目录/文件或目录重命名
+
+-----tree
+-d 只显示目录
+
+-----cp
+-f 已经存在的目标文件直接覆盖，不会提示
+-i 覆盖文件前提示，注意：如果没这个参数，覆盖前是不提示的。
+-r 若给出的源文件是目录文件，则cp将递归复制该目录下的所有子目录和文件，目标文件必须为一个目录名
+
+----mv
+-i 覆盖前提示
+
+----查看文件内容
+cat 文件名  对应 concatenate 查看文件内容、创建文件、文件合并、追加文件内容等功能
+more 文件名  对应 more 分屏显示文件内容
+grep 搜索文本文件名  对应 grep 搜索文本文件内容
+
+--cat
+-b 对非空输出行编号
+-n 对输出的所有行编号
+
+--more
+空格建  显示下一屏
+Enter键  一次滚动一行
+b 回滚一屏
+f 前滚一屏
+q 退出
+/word  搜索word字符串
+
+----grep
+允许对文本文件进行 模式查找 ，所谓模式查找 ，又被称为正则表达式。
+-n 显示匹配行及行号
+-v 显示不包含匹配文本的所有行（相当于求反）
+-i 忽略大小写
+
+常用的两种模式查找
+^a 行首，搜索以a开头的行
+ke$ 行尾，搜索以ke结束的行
+
+----echo 文字内容
+echo 会在终端中显示指定的文字，通常和重定向联合使用
+
+----重定向>和>>
+> 表示输出，会覆盖文件原有内容
+>> 将内容追加到已有文件的末尾
+
+----管道 |
+将一个命令的输出做为另一个命令的输入
+常用的管道命令：
+more:分屏显示
+grep:在命令执行结果的基础上查询指定的文本
+
+----关机/重启
+shutdown 选项 时间
+-r 重新启动
+
+提示：不指定选项和参数，默认1分钟后关闭电脑
+$ shutdown -r now  (重新启动系统 ，now表示现在）
+$ shutdown now (立刻关机）
+$ shutdown 20:25 (系统在今天的20：25 会关机）
+$ shutdown +10 (再过十分钟后自动关机）
+$ shutdown -c (取消之前指定的关机计划）
+
+----查看或配置网卡信息
+ifconfig  (对应英文 configure a network interface ,查看/配置计算机当前的网卡配置信息）
+ping ip地址 （对应 ping  检测到时目标ip的连接是否正常）
+
+查看网卡对应的ip地址：
+ifconfig | grep inet
+提示：Linux中物理网卡的名字通常以ensXX表示
+
+
+-----远程登录和复制文件
+ssh 用户名@ip   （英文： secure shell  作用：关机/重新启动）
+scp 用户名@ip:文件名或路径 用户名@ip:文件名或路径  （英文：secure copy  作用：远程复制文件）
+
+-----端口号
+端口号：通过端口号可以找到计算机上运行的应用程序
+ssh 服务器 的默认端口号是 22 ，如果是默认端口号，在连接的时候，可以省略。
+
+常见服务器端口号列表：
+ssh 服务器 ： 22
+web 服务器 ： 80
+https ： 443
+ftp : 21
+
+----ssh 客户端的简单实用
+ssh [-p port] user@remote    (remote 可用ip/域名）
+windows中，请使用putty 或者 xshell 
+
+-----windows 下 SSH 客户端：
+Putty : http://www.chiark.greenend.org.uk/~sgatham/putty/latest.html
+Xshell : http://xshellcn.com
+两款都是免费的。
+
+------scp 命令
+scp  就是 secure copy  一个linux下用来进行 远程拷贝文件 的命令
+注意： scp 在指定端口是用的是大写的 -P 而不是小写。
+
+# 把本地当前目录下的 01.py 文件 复制到 远程 家目录下的 Desktop/01.py
+# 注意： “：” 后面的路径如果不是绝对路径，则以用户的家目录为参照路径
+scp -p port 01.py user@remote:desktop/01.py
+
+# 把远程 家目录下的 Desktop/01.py 文件 复制到 本地当前目录下的 01.py
+scp -P port user@remote:Desktop/01.py 01.py
+
+# 加上 -r 选项可以传送文件夹
+# 把当前目录下的 demo 文件夹 复制到 远程 家目录下的 Desktop
+scp -r demo user@remote:Desktop
+
+# 把远程 家目录下的 Desktop 复制到 当前目录下的 demo 文件夹
+scp -r user@remote:Desktop demo
+
+----ftp传输：filezilla
+https://www.filezilla.cn/download/client
+
+-----SSH 高级
+提示：有关SSH配置信息都保存在用户家目录下的.ssh目录下
+
+免密码登录：
+1、配置公钥
+	执行 ssh-keygen 即可生成ssh钥匙，一路回车即可 （在客户端执行）
+2、上传公钥到服务器
+	执行 ssh-copy-id -p port user@remote 可以让远程服务器记住我们的公钥
+	ssh-copy-id xianyunguh@192.168.2.18
+
+----配置别名
+在 ~/.ssh/config 里面追加以下内容：
+Host mac （别名）
+    Hostname ip地址
+    User  xianyunguh（登陆用户名）
+    Port 22
+保存之后，即可用 ssh mac  实现远程登录了，scp同样可以使用
+
+例如：scp -r ~/Desktop myserver:Desktop/demo
+gedit 文件名  (编辑文件）
+
+----用户权限相关命令
+	权限	英语	缩写	数字代号
+	读	read	r	4
+	写	write	w	2
+	执行	excute	x	1
+	无权限			0
+
+
+硬链接数：通俗地讲，就是有多少种方式，可以访问到当前目录/文件，（子目录数越多，硬链接数就越多）
+
+-----chmod 简单使用
+chmod 可以修改  用户/组  对  文件/目录 的权限
+格式： chmod +/-rwx 文件名|目录名
+提示：以上方式会一次性修改 拥有者/组权限
+
+具有可执行（x) 权限的文件显示绿色
+终端里面要想执行某个文件需要： ./01.py (要执行当前目录下的01.py这个文件）
+
+如果目录去掉（x) 可执行权限 ，那么CD、ls等 终端命令则不能执行
+
+----超级用户
+root 贴号通常 用于系统的维护和管理
+linux安装过程中，系统会自动创建一个“标准用户”，标准用户只能在自己的家目录活动。
+
+sudo:
+su 是 substitute user 的缩写，表示 使用另一个用户的身份
+sudo 命令用来以其他身份来执行命令，预设的身份为 root
+用户使用sudo时，必须先输入密码，之后有5分钟的有效期限
+若其未经授权的用户企图使用 sudo ，则会发出警告邮件给管理员。
+
+
+
+
+http://man.linuxde.net/
+----组管理 终端命令
+添加组：groupadd 组名
+删除组：groupdel 组名
+确认组信息：cat/etc/group
+修改文件/目录的所属组：chgrp -R 组名 文件/目录名
+
+提示：
+组信息保存在 /etc/group 文件中
+/etc 目录是专门来保存 系统配置信息 的目录
+
+----用户管理 终端命令
+useradd -m -g 组 新建用户  （作用：添加新用户  -m 自动建立用户家目录 ； -g 指定用户所在的组，否则会建立一个和同名的组。
+passwd 用户名  （作用：设置用户密码 ，如果是普通用户，直接用passwd 可以修改自己的账户密码）
+userdell -r 用户名  （作用：删除用户， -r 选项会自动删除用户家目录）
+cat /etc/passwd|grep 用户名 （作用：确认用户信息， 新建用户后，用户信息会保存在 /etc/passwd文件中
+
+提示：
+创建用户时，如果忘记添加 -m 选择指定新用户的家目录 ，最简单的方法就是删除用户，重新创建。
+创建用户时，默认会创建一个和用户名同名的组名。
+
+-----查看用户信息
+id [用户名]     查看用户UID和GID信息
+who 		查看当前所有登录的用户列表
+whoami		查看当前登录用户的帐户名
+
+passwd文件：
+/etc/passwd 文件存放的是用户的信息，由6个分号组成的7个信息，分别是：
+1、用户名
+2、密码（x,表示加密的密码）
+3、UID （用户标识）
+4、GID （组标识）
+5、用户全名或本地帐号
+6、家目录
+7、登陆使用的 shell ，就是登录之后，使用的终端命令， ubuntu 默认是 dash
+
+cat -n /etc/passwd | grep lisi
+cat -n /etc/group  | grep dev   (组信息）
