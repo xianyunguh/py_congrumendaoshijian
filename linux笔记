@@ -346,4 +346,28 @@ usermod -s /bin/bash
 注意：默认使用 useradd 添加的用户是没有权限使用 sudo 以 root 身份执行命令的，可以使用以下命令，将用户添加到 sudo 附加组中
 usermod -G sudo 用户名
 
+----which
+/etc/passwd  是用于保存用户信息的文件
+/etc/bin/passwd 是用于修改用户密码的程序
+
+rws  可读可写可执行 其中s是一种特殊的可执行权限 ，root用户具有这样的权限。
+which 命令可以查年执行命令所在位置，例如：
+
+which ls
+# 输出
+# /bin/ls
+
+which useradd
+# 输出
+# /usr/sbin/useradd
+
+----bin和sbin
+在linux中，绝大多数可执行文件都是保存在 /bin , /sbin , /usr/bin , /usr/sbin
+/bin (binary) 是二进制执行文件目录，主要用于具体应用
+/sbin （system binary) 是系统管理员专用的二进制代码存放目录，主要用于系统管理
+/usr/bin (user commands for applications) 后期安装的一些软件
+/usr/sbin (super user commands for applications) 超级用户的一些管理程序
+
+提示：
+cd 命令是内置在系统内核中的，没有独立的文件，因此用which无法找到。
 
