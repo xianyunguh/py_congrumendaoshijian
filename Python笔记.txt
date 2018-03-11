@@ -1,275 +1,275 @@
-----��ʶ����
-NameError:name ��pirnt' is not defined
-���ƴ���'pirnt'����û�ж���
+----认识错误
+NameError:name ‘pirnt' is not defined
+名称错误：'pirnt'名字没有定义
 
 SyntaxError:invalid syntax
-�﷨�����﷨��Ч
+语法错误：语法无效
 
-��ʾ��ÿ�д��븺�����һ������
+提示：每行代码负责完成一个动作
 
 IndentationError:unexpected indent
-�������󣺲��������ֵ�����
+缩进错误：不期望出现的缩进
 
-��ʾ��ÿ�д���ǰ�涼��Ҫ���ӿո�
+提示：每行代码前面都不要增加空格
 
-python 2.xĬ���ǲ�֧�����ĵ�
-python 2.x�Ľ�����������python
-python 3.x�Ľ�����������python3
+python 2.x默认是不支持中文的
+python 2.x的解释器名称是python
+python 3.x的解释器名称是python3
 
 
-�ٷ��ṩ�Ĺ��ɰ汾��python2.6,2010���2.7����python2.x�����һ���汾
-���飺��python3.0��������2.7��ִ�С�2.6��2.7���Լ���2.x��3.x�汾
+官方提供的过渡版本是python2.6,2010年的2.7版是python2.x的最后一个版本
+建议：用python3.0开发，用2.7来执行。2.6和2.7可以兼容2.x和3.x版本
 
-������������
-cpython -- �ٷ��汾��c����ʵ��
-jython  -- ����������javaƽ̨
-ironpython -- ����������.net��monoƽ̨
-pypy -- pythonʵ�ֵģ�֧��jit��ʱ����
+其他解释器：
+cpython -- 官方版本的c语言实现
+jython  -- 可以运行在java平台
+ironpython -- 可以运行在.net和mono平台
+pypy -- python实现的，支持jit即时编译
 
-�˳�python��������exit()����ctrl+d
+退出python解释器：exit()或者ctrl+d
 
 ---ipython
-���е�i �������� interactive
-ipython��һ��python�Ľ���ʽshell����Ĭ�ϵ�python shell ���úܶ�
-�Զ���ȫ
-�Զ�����
-֧��bash shell ���� (��ֱ������linux�ն����
-�����������õĹ��ܺͺ���
-ipython�ǻ���BSD��Դ��
+其中的i 代表交互 interactive
+ipython是一个python的交互式shell，比默认的python shell 好用很多
+自动补全
+自动缩进
+支持bash shell 命令 (可直接输入linux终端命令）
+内置许多有用的功能和函数
+ipython是基于BSD开源的
 
-�汾��
-python2.xʹ�õĽ�������ipython
-python3.xʹ�õĽ�������ipython3
+版本：
+python2.x使用的解释器是ipython
+python3.x使用的解释器是ipython3
 
-�˳�ipython������������exit���ݼ�ctrl+d
+退出ipython解释器可输入exit或快捷键ctrl+d
 
 ---PyCharm
-�ٷ���վ��www.jetbrains.com/pycharm
-pycharm��������Ϣ������ �û���Ŀ¼�µġ���pycharmxxxx.x Ŀ¼�£�xxxx.x ��ʾ�汾��
+官方网站：www.jetbrains.com/pycharm
+pycharm的配置信息保存在 用户家目录下的　．pycharmxxxx.x 目录下，xxxx.x 表示版本号
 
-�ָ�pycharm��ʼ���ã�
-1.�ر�pycharm
-2.ɾ��pycharm��������ϢĿ¼��
+恢复pycharm初始设置：
+1.关闭pycharm
+2.删除pycharm的配置信息目录：
 $ rm -r ~/.pycharm2016.3
-3.����pycharm
+3.重启pycharm
 
-Pycharm�������Ϊ199$/�� ���� 19.9$/��
-����pycharm�ṩ�˶�ѧ���ͽ�ʦ���ʹ�õİ汾
-���ص�ַ��https://www.jetbrains.com/pycharm-edu/download/#section=linux
+Pycharm购买费用为199$/年 或者 19.9$/月
+不过pycharm提供了对学生和教师免费使用的版本
+下载地址：https://www.jetbrains.com/pycharm-edu/download/#section=linux
 
-pycharm������ĿĿ¼���½�һ��.idea��Ŀ¼���������� ��Ŀ��ص���Ϣ �����磺�������汾����Ŀ�������ļ���
+pycharm会在项目目录下新建一个.idea的目录，用来保存 项目相关的信息 ，例如：解释器版本，项目包含的文件等
 
-----��������Ա��Ƶ��������
-��Ŀ��ǰ�涼�� ���ֱ�ţ�����֪ʶ���������ŵ���
-���磺01_Python������02_��ȥ��03_ѭ��
-ÿ����Ŀ�µ��ļ������� hm_xx_֪ʶ��   ��ʽ������
-���� xx �������ļ������
+----黑马程序员视频命名规则：
+项目名前面都以 数字编号，随着知识点递增，编号递增
+例如：01_Python基础、02_分去、03_循环
+每个项目下的文件名都以 hm_xx_知识点   方式来命名
+其中 xx 是演练文件的序号
 
-ע�⣺��python�ٷ����飩
-1���ļ�������ֻʹ��Сд��ĸ�����ֺ��»���
-2���ļ������������ֿ�ʼ
+注意：（python官方建议）
+1、文件名建议只使用小写字母、数字和下划线
+2、文件名不能以数字开始
 
-pycharm�༭���������ã�
+pycharm编辑器字体设置：
 settings--editor-colors & fonts--font
-���壺dialoginput  ��С��24
+字体：dialoginput  大小：24
 
-pycharm����̨�������ã�
+pycharm控制台字体设置：
 settings--editor-colors & fonts-console font
 
----pycharm�İ�װ
-���أ�
-�����棺https://www.jetbrains.com/pycharm-edu/download/#section=linux
-רҵ�棺https://www.jetbrains.com/pycharm/download/#section=linux
+---pycharm的安装
+下载：
+教育版：https://www.jetbrains.com/pycharm-edu/download/#section=linux
+专业版：https://www.jetbrains.com/pycharm/download/#section=linux
 
-��װ��������
-1����ѹ��װ��
+安装与启动：
+1、解压安装包
 $ tar -zxvf pycharm-professional-2017.1.3.tar.gz
-2������ѹ���Ŀ¼�ƶ���/optĿ¼�£����Է��������û�ʹ��
-/opt Ŀ¼�û���Ÿ��������ⰲװ������ 
-$ sudo mv pycharm-2017.1.3/  /opt/ ��sudo��������ʹ�ó����û���������ִ�У�Ҫ������Ŀ¼֮�������Ŀ¼����Ҫ��root��������ִ�У�
-3���л�����Ŀ¼
+2、将解压后的目录移动到/opt目录下，可以方便其他用户使用
+/opt 目录用户存放给主机额外安装的软件 
+$ sudo mv pycharm-2017.1.3/  /opt/ （sudo的作用是使用超级用户的身份来执行，要操作家目录之外的其他目录，都要以root的身份来执行）
+3、切换工作目录
 $ cd /opt/pycharm-2017.1.3/bin
-4������pycharm
+4、启动pycharm
 $ ./pycharm.sh
 
-ж��pycharm:
-��Ҫ�˽⣬��ѹ����ļ�����/optĿ¼��
-����pycharm�󣬻����û���Ŀ¼�½���һ��.pycharmxxx������Ŀ¼�������������������Ϣ��
-�����Ŀ�ݷ�ʽ�ļ��ڣ� /usr/share/applications/jetbrains-pycharm.desktop
-��ubuntu�У�Ӧ�ó��������Ŀ�ݷ�ʽͨ����������/usr/share/applicationsĿ¼��
+卸载pycharm:
+需要了解，解压后的文件夹在/opt目录下
+启动pycharm后，会在用户家目录下建立一个.pycharmxxx的隐藏目录，用来保存相关配置信息。
+创建的快捷方式文件在： /usr/share/applications/jetbrains-pycharm.desktop
+在ubuntu中，应用程序启动的快捷方式通常都保存在/usr/share/applications目录下
 
-���ԣ�Ҫ�Ʋ�pycharmֻ��Ҫ������������
-1��ɾ����ѹ��Ŀ¼
+所以，要制裁pycharm只需要做以下两步：
+1、删除解压缩目录
 $ sudo rm -r /opt/pycharm-2016.3.1/
-2��ɾ����Ŀ¼�����ڱ���������Ϣ������Ŀ¼
+2、删除家目录下用于保存配置信息的隐藏目录
 $ rm -r ~/.pycharm2016.3/
-�������ʹ��pycharm ����Ҫ��/usr/share/applications/�µ�jetbrains-pycharm.desktopɾ��
+如果不再使用pycharm 还需要将/usr/share/applications/下的jetbrains-pycharm.desktop删掉
 
 
-����ע�ͣ���ע�ͣ���
-  #  Ϊ��֤�ɶ��ԣ��ٷ�����#��ӿո�
-pycarm������ִ��벻���Ϲ淶�����ڴ�����������һ����������ʾ����Ա
-С���� ���԰����������µ�����ʽ 
+单行注释（行注释）：
+  #  为保证可读性，官方建议#后加空格
+pycarm如果发现代码不符合规范，会在代码下面添加一行曲线来提示程序员
+小灯泡 可以帮助我们重新调整格式 
 
-�ڴ���������ӵ�ѡע��
-ע�⣺Ϊ��֤����Ŀ����ԣ�ע�ͺʹ��������Ҫ�������ո�
+在代码后面增加单选注释
+注意：为保证代码的可以性，注释和代码间至少要有两个空格
 
-����ע�ͣ���ע�ͣ���һ�������� ���� ���� �������ź�˫���Ŷ����ԣ�
+多行注释（块注释）：一对连续的 三个 引号 （单引号和双引号都可以）
 
-ʲôʱ����Ҫע�ͣ�
-���� ���ӵĲ�����Ӧ���ڲ�����ʼǰд��������ע��
-��Ҫ��������
+什么时候需要注释：
+对于 复杂的操作，应该在操作开始前写上若干行注释
+不要描述代码
 
----���ڴ���淶��
-python�ٷ��ṩһϵ��PEP��Python Enhancement Proposals)�ĵ�
-���е�8ƪ�ĵ�ר�����Python�Ĵ����ʽ�����˽��飬Ҳ�����׳Ƶ�PEP8
-�ĵ���ַ��https://www.python.org/dev/peps/pep-0008/
+---关于代码规范：
+python官方提供一系列PEP（Python Enhancement Proposals)文档
+其中第8篇文档专门针对Python的代码格式给出了建议，也就是俗称的PEP8
+文档地址：https://www.python.org/dev/peps/pep-0008/
 
-python���淶��
-�ȸ��ж�Ӧ�������ĵ���http://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/python_style_rules
+python风格规范：
+谷歌有对应的中文文档：http://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/python_style_rules
 
-�κ����Եĳ���Ա����д�����ϴ��룬�ǿ�ʼ�������ĵĵ�һ��
+任何语言的程序员，编写出符合代码，是开始程序生涯的第一步
 
----���������
-//  ȡ���� ���س����������֣��̣� 9//2��������4
-%   ȡ���� ���س��������� 9%2=1
-**  ��  �Գƴη����˷���2**3=8
-��python�У�*��������������ַ��������������ַ����ظ�ָ�������Ľ����
-���磺 "_"*50 
+---算数运算符
+//  取整数 返回除法整数部分（商） 9//2输出结果是4
+%   取余数 返回除法的余数 9%2=1
+**  幂  以称次方、乘方，2**3=8
+在python中，*运算符还可用于字符串，计算结果是字符串重复指定次数的结果。
+例如： "_"*50 
 
-����������ȼ���
+运算符的优先级：
 ** 
 * / % // 
 + -
 
 
-���������ͣ�
-���ڴ��д���һ�������������
-1������������
-2���������������
-3�������洢���ݵ�����
-4�������ĵ�ַ����ʾ��
+变量的类型：
+在内存中创建一个变量会包括：
+1、变量的名称
+2、变量保存的数据
+3、变量存储数据的类型
+4、变量的地址（标示）
 
-��python�У��������ʱ�ǲ���Ҫָ���������͵ġ�
-�����е�ʱ��python������������ݸ�ֵ���Ⱥ��Ҳ�������Զ��Ƶ��������б�������ݵ����͡�
---�����ͣ�
-int:������
-str:�ַ�������
-bool:�������ͣ���True���߼�False)
-float:��ʾ��һ��С�����ͣ�������
-comples(�����ͣ���Ҫ���ڿ�ѧ����
+在python中，定义变量时是不需要指定变量类型的。
+在运行的时候，python解释器，会根据赋值语句等号右侧的数据自动推导出变量中保存的数据的类型。
+--数字型：
+int:整数型
+str:字符串类型
+bool:布尔类型（真True或者假False)
+float:表示是一个小数类型，浮点数
+comples(复数型）主要用于科学计算
 
---�������ͣ�
-�ַ���
-�б�
-Ԫ��
-�ֵ�
+--非数字型：
+字符串
+列表
+元组
+字典
 
-��ʾ����python2.x�У����� ���ݱ�����ֵ�ĳ��Ȼ���Ϊ��
-int(������
-long(��������
+提示：在python2.x中，整数 根据保存数值的长度还分为：
+int(整数）
+long(长整数）
 
-����ת��������
-int(x) ��xת��Ϊһ������
-float(x) ��xת��Ϊһ��������
+类型转换函数：
+int(x) 将x转换为一个整数
+float(x) 将x转换为一个浮点数
 
 
--------�����ĸ�ʽ����� 
-%����Ϊ��ʽ����������ר�����ڴ����ַ����еĸ�ʽ
-%�Ͳ�ͬ���ַ����ã���ͬ���͵�������Ҫʹ�� ��ͬ�ĸ�ʽ���ַ�
+-------变量的格式化输出 
+%被称为格式化操作符，专门用于处理字符串中的格式
+%和不同的字符连用，不同类型的数据需要使用 不同的格式化字符
 
-%s �����ַ������͵�����
-%d �����з���ʮ�����������ݣ�%06d��ʾ�����������ʾλ�ã�����ĵط�ʹ��0��ȫ
-%f �����������������ݣ� %.02f��ʾС����ֻ��ʾ��λ
-%% ���%
+%s 代表字符串类型的数据
+%d 代表有符号十进制整数数据，%06d表示输出的整数显示位置，不足的地方使用0补全
+%f 代表浮点数类型数据， %.02f表示小数后只显示两位
+%% 输出%
 
-�﷨��ʽ���£�
-print("��ʽ���ַ���" % ����1��
-print("��ʽ���ַ���" % ������1������2...����
+语法格式如下：
+print("格式化字符串" % 变量1）
+print("格式化字符串" % （变量1，变量2...））
 
-��ʽ���������--������ϰ
-1�������ַ������� name ����� ���ҵ����ֽ� С����������գ���
-2�������������� student_no , ��� ���ҵ�ѧ����000001��
-3������С�� price��weight��money, ���ƻ������9.00Ԫ/�������5.00���Ҫ֧��45.00Ԫ
-4������һ��С�� scale����� ���ݱ����� 10.00%
-�𰸣�
-print("�ҵ����ֽ� %s,������գ�" %name)
-print(���ҵ�ѧ����%06d�� % student_no)
-print(��ƻ������%.02f/�������%.02f���Ҫ֧��%.02fԪ�� %(price,weight,money))
-print(�����ݱ�����%.02f%%�� % (scale*100))
+格式化输出演练--基本练习
+1、字义字符串变量 name ，输出 “我的名字叫 小明，请多多关照！”
+2、定义整数变量 student_no , 输出 “我的学号是000001”
+3、定义小数 price、weight、money, 输出苹果单价9.00元/斤，购买了5.00斤，需要支付45.00元
+4、定义一个小数 scale，输出 数据比例是 10.00%
+答案：
+print("我的名字叫 %s,请多多关照！" %name)
+print(“我的学号是%06d” % student_no)
+print(“苹果单价%.02f/斤，购买了%.02f斤，需要支付%.02f元” %(price,weight,money))
+print(“数据比例是%.02f%%” % (scale*100))
 
-��ʾ���������д����������Ľ����
-print(�����ݱ�����%.02f%%�� % scale*100)
+提示：如果这样写会出现怎样的结果？
+print(“数据比例是%.02f%%” % scale*100)
 
-��ʶ�������ǳ���Ա����ı���������������������Ҫ�м���֪���Ч����
-��ʶ����������ĸ���»��ߺ�������ɣ����������ֿ�ͷ��������ؼ���������
+标识符：就是程序员定义的变量名、函数名，名字需要有见名知义的效果。
+标识符可以由字母、下划线和数字组成，不能以数字开头，不能与关键字重名。
 
-�ؼ��֣�������python�ڲ��Ѿ�ʹ�õı�ʶ��
-ͨ������������Բ鿴python�еĹؼ��֣�
+关键字：就是在python内部已经使用的标识符
+通过以下命令可以查看python中的关键字：
 import keyword
 print(keyword.kwlist)
 
-import �ؼ���  ���Ե���һ�������߰�"
+import 关键字  可以导入一个“工具包"
 
-----�������������� 
-ע�⣺python�еı�ʶ�������ִ�Сд��
-1�� �ڶ������ʱ��Ϊ�˱�֤�����ʽ��= ������Ӧ�ø�����һ���ո�
-2�����������������������ϵ������ʱ���ɰ����·�ʽ������
-a��ÿ�����ʶ�ʹ��Сд��ĸ
-b�������뵥��֮��ʹ��_�»�������
+----变量的命名规则 
+注意：python中的标识符是区分大小写的
+1、 在定义变量时，为了保证代码格式，= 的左右应该各保留一个空格。
+2、变量名由两个或两个以上单词组成时，可按以下方式命名：
+a、每个单词都使用小写字母
+b、单词与单词之间使用_下划线连接
 
-----�շ�������
-�������� ���������������ϵ������ʱ�������������շ�������������
-С�շ�ʽ��������
-��һ��������Сд��ĸ��ʼ���������ʵ�����ĸ��д������firstName,lastName)
+----驼峰命名法
+当变量名 由两个或两个以上单词组成时，还可以利用驼峰命名法来命名
+小驼峰式命名法：
+第一个单词以小写字母开始，后续单词的首字母大写（例：firstName,lastName)
 
-���շ�ʽ��������
-ÿ�����ʵ�����ĸ�����ô�д��ĸ
-���磺FistName,LastName
+大驼峰式命名法：
+每个单词的首字母都采用大写字母
+例如：FistName,LastName
 
-��python�ж�ϰ�����»��ߵķ�����
+在python中多习惯用下划线的方法。
 
-�ж���� �ֱ���Ϊ ��֧���
-ע�⣺���������Ϊһ�� tab ��������4���ո�--�ٷ�����ʹ�ÿո�
-��python�����У�tab�Ϳո�Ҫ����
+判断语句 又被称为 分支语句
+注意：代码的缩进为一个 tab 键，或者4个空格--官方建议使用空格
+在python开发中，tab和空格不要混用
 
-----�Ƚϣ���ϵ�������
-��ѧ���ű���https://zh.wikipedia.org/wiki/��ѧ���ű�
-== ���������������ֵ�Ƿ����
-!= ���������������ֵ�Ƿ����
+----比较（关系）运算符
+数学符号表：https://zh.wikipedia.org/wiki/数学符号表
+== 检查两个操作数的值是否相等
+!= 检查两个操作数的值是否不相等
 >
 <
 >=
 <=
-python2.x���жϲ����ڻ�������<>
+python2.x中判断不等于还可以用<>
 
-if �� else ����Լ����Ե��������ֹ�ͬ��һ�� �����Ĵ����
+if 和 else 语句以及各自的缩进部分共同是一个 完整的代码块
 
-pycharm�ctrl+/ ȡ�������ע��
+pycharm里：ctrl+/ 取消或加上注释
 
-----�߼�����
-�߼������������ ��and / ��or / ��not ����
+----逻辑运算
+逻辑运算符包括： 与and / 或or / 非not 三种
 
-elif��Ӧ�ó����ǣ�ͬʱ�ж϶�����������е������� ƽ�� �ġ�
-if��Ƕ�׵�Ӧ�ó����ǣ���֮ǰ���������ǰ���£������Ӷ�����жϡ�
+elif的应用场景是：同时判断多个条件，所有的条件是 平级 的。
+if的嵌套的应用场景是：在之前条件满足的前提下，再增加额外的判断。
 
----ʹ�������
+---使用随机数
 import random
-����ģ��󣬿���ֱ����ģ�����ƺ�����һ�� . Ȼ�� tab��������ʾģ���а��������к���
-random.randint(a,b),����[a,b]֮�������������a �� b
+导入模块后，可以直接在模块名称后面敲一个 . 然后 tab键，会提示模块中包含的所有函数
+random.randint(a,b),返回[a,b]之间的整数，包含a 和 b
 
-ע�⣺importӦ�ó����ڳ��򶥲�����ʹ����ĳ������κ�ʱ�򶼿ɵ��á�
+注意：import应该出现在程序顶部，以使后面的程序在任何时候都可调用。
 
-----ѭ��
-������������̣�˳�򡢷�֧��ѭ��
+----循环
+程序的三大流程：顺序、分支、循环
 
----��ֵ�����
-c+=a ��Ч�� c=c+a
+---赋值运算符
+c+=a 等效于 c=c+a
 c-=a
 c*=a
 c/=a
-c//=a (ȡ������
-c%=a  (ȡ�ࣩ
+c//=a (取整数）
+c%=a  (取余）
 c**=a 
 
 
@@ -277,242 +277,273 @@ c**=a
 
 
 
-pycharm: ѡ�����֣��ٰ�tab������ͳһ��������;shift+tab��ͳһ��������
+pycharm: 选中文字，再按tab键，可统一增加缩进;shift+tab可统一减少缩进
 
 
-break ĳһ��������ʱ���˳�ѭ��������ִ�к����ظ�����
-continue ĳһ��������ʱ��ֱ�ӽ�����һ��ѭ������ִ��ѭ���ڴ����
+break 某一条件满足时，退出循环，不再执行后续重复代码
+continue 某一条件满足时，直接进行下一个循环，不执行循环内代码段
 
 ---print
-Ĭ������£�print����������ݺ󣬻��Զ�������ĩβ���ӻ���
-�粻ϣ��ĩβ���ӻ��У�����print������ݵĺ������ӣ� end=""
-����""�м����ָ��print����������ݺ󣬼���ϣ����ʾ������
-�﷨��
-������ݽ����󲻻��У�print("*",end="")
-�����Ļ��У� print("")
+默认情况下，print函数输出内容后，会自动在内容末尾增加换行
+如不希望末尾增加换行，可在print输出内容的后面增加， end=""
+其中""中间可以指定print函数输出内容后，继续希望显示的内容
+语法：
+输出内容结束后不换行：print("*",end="")
+单纯的换行： print("")
 
----ת���ַ�
-���ַ����ڲ�ʹ�õ������ַ�
-\t ���һ���Ʊ�����Э��������ı�ʱ ��ֱ���� ���ֶ���
-\n ���һ�� ���з� 
-�Ʊ��� �Ĺ������ڲ�ʹ�ñ����������� ��ֱ���� ���ֶ���
+---转义字符
+在字符串内部使用的特殊字符
+\t 输出一个制表符，协助在输出文本时 垂直方向 保持对齐
+\n 输出一个 换行符 
+制表符 的功能是在不使用表格的情况下在 垂直方向 保持对齐
 
-ת���ַ�������
-\\ ��б�ܷ���
-\' ������
-\" ˫����
-\n ����
-\t �����Ʊ���
-\r �س�
+转义字符描述：
+\\ 反斜杠符号
+\' 单引号
+\" 双引号
+\n 换行
+\t 横向制表符
+\r 回车
 
-----�����Ķ���
-def ����������
-    ������װ�Ĵ���
-1��def��Ӣ��define����д
-2����������Ӧ���ܱ��� ������װ���� �Ĺ���
-3���������� Ӧ�÷��ϱ�ʶ������������
+----函数的定义
+def 函数名（）
+    函数封装的代码
+1、def是英文define的缩写
+2、函数名称应该能表达 函数封装代码 的功能
+3、函数名称 应该符合标识符的命名规则
 
-ע�⣺����ú���֮�� ��ֻ��ʾ���������װ��һ�δ�����ѣ�������������ú����������ǲ�������ִ�еģ�����pycarm����ĵ���Ҳ����ִ��
+注意：定义好函数之后 ，只表示这个函数封装了一段代码而已，如果不主动调用函数，函数是不会主动执行的，包括pycarm里面的调试也不会执行
 
-ע�⣺ʹ�ú����� ���ú���ǰ������Ҫ��֤ python �Ѿ�֪�������Ĵ��ڡ�
+注意：使用函数名 调用函数前，必须要保证 python 已经知道函数的存在。
 
----pycharm�ĸ߶ȹ���
-f8  step over ���Ե���ִ�д��룬��Ѻ������ÿ�����һ�д���ֱ��ִ��
-f7  step into ���Ե���ִ�д��룬����Ǻ���������뺯���ڲ�
+---pycharm的高度工具
+f8  step over 可以单步执行代码，会把函数调用看作是一行代码直接执行
+f7  step into 可以单步执行代码，如果是函数，会进入函数内部
 
-----�������ĵ�ע��
-�ڿ����У����ϣ������������ע�ͣ�Ӧ���� ���庯�� ���·���ʹ�� ��������������
-�� �������������� ֮���д�Ժ�����˵������
-�� �������� λ�ã�ʹ�ÿ�ݼ� ctrl+q ���Բ鿴������˵����Ϣ
-ע�⣺��Ϊ��������ԱȽ϶���������������Ϸ���Ӧ�ú��������루����ע�ͣ�������������
+----函数的文档注释
+在开发中，如果希望给函数添加注释，应该在 定义函数 的下方，使用 连续的三对引号
+在 连续的三对引号 之间编写对函数的说明文字
+在 函数调用 位置，使用快捷键 ctrl+q 可以查看函数的说明信息
+注意：因为函数体相对比较独立，函数定义的上方，应该和其他代码（包括注释）保留两个空行
 
-pep8 ��python�ٷ�ר�����python����Ĵ�����д����ṩ��һƪ�ĵ���
+pep8 是python官方专门针对python程序的代码书写规格提供的一篇文档。
 
----����������ʹ��
-�ں������ĺ����С�����ڲ���д ����
-�������֮��ʹ�� , �ָ�
-���磺���������ĺ�
+---函数参数的使用
+在函数名的后面的小括号内部填写 参数
+多个参数之间使用 , 分隔
+例如：求两个数的和
 def sum2_num(num1,num2):
     result = num1 + num2
     print("%d + %d + %d" % (num1,num2.result)
 sum_2_num(50,20)
----�βκ�ʵ��
-�βΣ����� ����ʱ��С�����еĲ��������������ղ����ģ��ں����ڲ� ��Ϊ����ʹ��(���磺�����num1,num2)
-ʵ�Σ����� ����ʱ��С�����еĲ����������������ݴ��ݵ� �����ڲ��õ� ��(���������50��20��
+---形参和实参
+形参：定义 函数时，小括号中的参数，是用来接收参数的，在函数内部 作为变量使用(例如：上面的num1,num2)
+实参：调用 函数时，小括号中的参数，是用来把数据传递到 函数内部用的 。(例如上面的50，20）
 
-�����ķ���ֵ
-����ֵ �Ǻ��� ��ɹ�������ú� �������ߵ� һ�����
-�ں�����ʹ�� return �ؼ��ֿ��Է��ؽ�� 
-���ú���һ��������ʹ�ñ��������պ����ķ��ؽ�� 
-ע�⣺return ��ʾ���أ������Ĵ��붼����ִ��
-���磺
+函数的返回值
+返回值 是函数 完成工作后，最好后 给调用者的 一个结果
+在函数中使用 return 关键字可以返回结果 
+调用函数一方，可以使用变量来接收函数的返回结果 
+注意：return 表示返回，后续的代码都不会执行
+例如：
 def sum_2_num(num1,num2):
-    """���������ֵ����"""
+    """对两个数字的求和"""
     return num1+num2
 
-#���ú�������ʹ�� result �������ռ����� 
+#调用函数，并使用 result 变量接收计算结果 
 result = sum_2_num(10,20)
 
-print("�������� %d" % result)
+print("计算结果是 %d" % result)
 
 
----����������רҵ��ע��
-�������153-�ָ�������-04-[��չ]PyCharm�����������ĵ�ע��
-�����ѡ�ж��庯�������֣���һ����ߵ�С���� ��ʶ ����������ӷǳ�רҵ�ĺ���ע��
+---给函数添加专业的注释
+详情见：153-分隔线演练-04-[扩展]PyCharm给函数增加文档注释
+鼠标先选中定义函数的名字，第一行左边的小灯泡 标识 点击即可添加非常专业的函数注释
 
 
-----ʹ��ģ���еĺ���
-ģ����Ҫ import����
-ÿһ������չ��py��β��pythonԴ�����ļ�����һ��ģ��
-��ģ���ж����ȫ�ֱ��������� ����ģ���ܹ��ṩ�����ֱ��ʹ�õĹ���
+----使用模块中的函数
+模块需要 import导入
+每一个以扩展名py结尾的python源代码文件都是一个模块
+在模块中定义的全局变量、函数 都是模块能够提供给外界直接使用的工具
  
----pyc�ļ�
-pyc�ļ�����python���������ɵ� �ֽ����ļ�������Դ����Ŀ¼�� _pycache_Ŀ¼��
+---pyc文件
+pyc文件是由python解释器生成的 字节码文件，可在源程序目录的 _pycache_目录下
 
-python�ڽ���Դ����ʱ��������
-1�����ȴ���Դ���룬��������һ���������ֽ���
-2���ٶ��ֽ�����д������Ż�����cpu�ܹ�ʶ��� ������
+python在解释源程序时分两部：
+1、首先处理源代码，编译生成一个二进制字节码
+2、再对字节码进行处理，才会生成cpu能够识别的 机器码
 
----python��������
-���������͡���������
-�������Ͱ������ַ������б���Ԫ�顢�ֵ�
-��python�У� ���з������ͱ��� ��֧�������ص㣺
-1������һ�����У�sequence����Ҳ��������Ϊ ����
-2��ȡֵ[]
-3������ for in
-4�����㳤�ȡ����/��Сֵ���Ƚϡ�ɾ��
-5������ + ���ظ� *
-6����Ƭ
+---python数据类型
+包括数字型、非数字型
+非数字型包括：字符串、列表、元组、字典
+在python中， 所有非数字型变量 都支持以下特点：
+1、都是一个序列（sequence），也可以理解为 容器
+2、取值[]
+3、遍历 for in
+4、计算长度、最大/最小值、比较、删除
+5、链接 + 和重复 *
+6、切片
 
-----�б� ����һ�������洢������ݣ�
-List���б��� ��ʹ����Ƶ�����������ͣ�������������ͨ������ ���顣
-ר�����ڴ洢һ����Ϣ
-�б���[]���壬 ���� ֮��ʹ�� , �ָ�
-�б��������� 0 ��ʼ�������ֿ��Ա���Ϊ�±ꡣ
-ע�⣺���б���ȡֵʱ���������������Χ������ᱨ��
+----列表 （用一个变量存储多个数据）
+List（列表） 是使用最频繁的数据类型，在其他语言中通常叫做 数组。
+专门用于存储一串信息
+列表用[]定义， 数据 之间使用 , 分隔
+列表的索引从 0 开始，索引又可以被称为下标。
+注意：从列表中取值时，如果超出索引范围，程序会报错
 
-len(�б��� ��ȡ�б���Ԫ�ص�����
-�б�.count(����) ����ͳ���б���ĳһ�����ݳ��ֵĴ���
-�б�.sort() ��������
-�б�.sort(reverse=True) ��������
-�б�.reverse()  ��ת/����
-�б�[����] ���б���ȡֵ
-�б�.index(���ݣ� ��ȡ���ݵ�һ�γ��ֵ�����
-del �б�[����] ɾ��ָ������������
-�б�.remove[����] ɾ����һ�����ֵ�ָ������
-�б�.pop ɾ��ĩβ����
-�б�.pop[����]  ɾ��ָ������������
-�б�.insert(����������)  ��ָ��λ�ò�������
-�б�.append(����) ��ĩβ׷������
-�б�.extend(�б�2)  ���б�2������׷�ӵ��б�1
-�б�.clear ��������б�  
-del �б�[����] ɾ��ָ������������ ��������ʹ�ã�
-ע�⣺del �ؼ��ֱ�������������һ���������ڴ���ɾ����
+len(列表） 获取列表中元素的总数
+列表.count(数据) 可心统计列表中某一个数据出现的次数
+列表.sort() 升序排序
+列表.sort(reverse=True) 降序排序
+列表.reverse()  反转/逆序
+列表[索引] 从列表中取值
+列表.index(数据） 获取数据第一次出现的索引
+del 列表[索引] 删除指定索引的数据
+列表.remove[数据] 删除第一个出现的指定数据
+列表.pop 删除末尾数据
+列表.pop[索引]  删除指定索引的数据
+列表.insert(索引，数据)  在指定位置插入数据
+列表.append(数据) 在末尾追加数据
+列表.extend(列表2)  将列表2的数据追加到列表1
+列表.clear 清空整个列表  
+del 列表[索引] 删除指定索引的数据 （不建议使用）
+注意：del 关键字本质上是用来将一个变量从内存中删除的
 
---��������Ҫ����Ӳ���ģ�������ķ�������Ҫ
+--函数是需要死记硬背的，而对象的方法则不需要
 
-----ѭ������
-������ ���� ��ͷ��β ���� �� �б� �л�ȡ���ݡ�
-    �� ѭ�����ڲ� ��� ÿһ��Ԫ�أ�ִ����ͬ�Ĳ�����
-��python��Ϊ������б��ı���Ч�ʣ�ר���ṩ�� ���� iteration ���� (��ν�����������ظ�����˼ ��
-ʹ��for ���ܹ�ʵ�ֵ�������
-#for ѭ���ڲ�ʹ�õı��� in �б�
+----循环遍历
+遍历： 就是 从头到尾 依次 从 列表 中获取数据。
+    在 循环体内部 针对 每一个元素，执行相同的操作。
+在python中为了提高列表的遍历效率，专门提供的 迭代 iteration 遍历 (所谓迭代，就是重复的意思 ）
+使用for 就能够实现迭代遍历
+#for 循环内部使用的变量 in 列表
 for name in name_list:
-    ѭ���ڲ�����б�Ԫ�ؽ��в���
+    循环内部针对列表元素进行操作
     print(name)
 
-ע�⣺����python �� �б� �п��� �洢��ͬ���͵�����
-�����ڿ����У������Ӧ�ó����ǣ�
-1���б� �洢��ͬ���͵�����
-2��ͨ�� ������������ѭ�����ڲ������ �б��е�ÿһ��Ԫ�أ�ִ����ͬ�Ĳ�����
+注意：尽管python 的 列表 中可以 存储不同类型的数据
+但是在开发中，更多的应该场景是：
+1、列表 存储相同类型的数据
+2、通过 迭代遍历，在循环体内部，针对 列表中的每一项元素，执行相同的操作。
 
-----Ԫ��
-tuple (Ԫ�飩 ���б����ƣ���֮ͬ������Ԫ���Ԫ�ز����޸�
-Ԫ�� ��ʾ���Ԫ����ɵ�����
-Ԫ�� ��python�����У����ض���Ӧ�ó�����
-Ԫ���� ��������
-Ԫ���� ֻ����һ��Ԫ��ʱ����Ҫ��Ԫ�غ������Ӷ��š�
-Ԫ��ͨ�����ڱ��治ͬ���͵����ݡ�
+----元组
+tuple (元组） 与列表类似，不同之处在于元组的元素不能修改
+元组 表示多个元素组成的序列
+元组 在python开发中，有特定的应用场景。
+元组用 （）定义
+元组中 只包含一个元素时，需要在元素后面添加逗号。
+元组通过用于保存不同类型的数据。
 
-��python�У�������for ѭ���������з��������͵ı������б���Ԫ�顢�ֵ��Լ��ַ�����
-��ʵ�ʿ����У������ܹ�ȷ��Ԫ���е��������ͣ��������Ԫ��ı�����Ҫ�����Ǻܶࡣ
+在python中，可以用for 循环遍历所有非数字类型的变量：列表、元组、字典以及字符串。
+在实际开发中，除非能够确认元组中的数据类型，否则针对元组的遍历需要并不是很多。
 
-Ӧ�ó�����
-�����Ĳ����ͷ���ֵ��һ���������Խ������������������� һ�η��ض�����ݡ�
-��ʽ�ַ�����ʽ���ַ��������()�����Ͼ���һ��Ԫ�顣
-���б������Ա��޸ģ��Ա������ݰ�ȫ
+应用场景：
+函数的参数和返回值，一个函数可以接收任意多个参数，或者 一次返回多个数据。
+格式字符，格式化字符串后面的()本质上就是一个元组。
+让列表不可以被修改，以保护数据安全
 info = ("zhangsan",18)
-print ("%s �������� %d" % info)
+print ("%s 的年龄是 %d" % info)
 
-Ԫ����б�֮���ת����
-list�������԰�Ԫ��ת�����б���list(Ԫ��)
-tuple�������԰��б�ת����Ԫ�飺 tuple(�б�)
+元组和列表之间的转换：
+list函数可以把元组转换成列表：list(元组)
+tuple函数可以把列表转换成元组： tuple(列表)
 
 
-----�ֵ�
-dictionary (�ֵ�) �ǳ��б����� python ֮�� ����� ����������
-�ֵ�ͬ���������� �洢�������
-ͨ�����ڴ洢 ����һ�� ���� �������Ϣ
+----字典
+dictionary (字典) 是除列表以外 python 之中 最灵活 的数据类型
+字典同样可以用来 存储多个数据
+通常用于存储 描述一个 物体 的相关信息
 
-���б�������
-�б� �� ���� �Ķ��󼯺�
-�ֵ� �� ���� �Ķ��󼯺� ��ʹ��print��������ֵ�ʱ��ͨ�������˳��Ͷ����˳���ǲ�һ�µģ�
-�ֵ���{}����
-�ֵ�ʹ�� ��ֵ�� �洢���ݣ���ֵ��֮��ʹ�� , �ָ�
-�� key ������
-ֵ value ������
-�� �� ֵ ֮��ʹ�� �� �ָ�
-��������Ψһ��
-ֵ ����ȡ�κ��������ͣ� �� �� ֻ��ʹ�� �ַ��������ֻ�Ԫ��
-xiaoming = {"name":"С��",
+和列表的区别：
+列表 是 有序 的对象集合
+字典 是 无序 的对象集合 （使用print函数输出字典时，通常输出的顺序和定义的顺序是不一致的）
+字典用{}定义
+字典使用 键值对 存储数据，键值对之间使用 , 分隔
+键 key 是索引
+值 value 是数据
+键 和 值 之间使用 ： 分隔
+键必须是唯一的
+值 可以取任何数据类型， 但 键 只能使用 字符串、数字或元组
+xiaoming = {"name":"小明",
             "age":18,
             "gender":True,
             "height":1.75}
 
-ʹ�ã�
-len(�ֵ䣩 ��ȡ�ֵ�� ��ֵ������
-�ֵ�.keys()  ����key �б�
-�ֵ�.values() ����value �б�
-�ֵ�.items() ���У�key,value��Ԫ���б�
-�ֵ�[key] ���Դ��ֵ���ȡֵ��key�����ڻᱨ��
-�ֵ�.get(key) ���Դ��ֵ���ȡֵ��key�����ڲ��ᱨ��
-del �ֵ�[key] ɾ��ָ����ֵ�ԣ�key �����ڻᱨ��
-�ֵ�.pop(key) ɾ��ָ����ֵ�ԣ�key �����ڻᱨ��
-�ֵ�.popitem() ���ɾ��һ����ֵ��
-�ֵ�.clear() ����ֵ�
-�ֵ�[key]=value ���key���ڣ��޸����ݣ����key�����ڣ��¼���ֵ��
-�ֵ�.setdefault(key,value) ���key���ڣ������޸����ݣ����key�����ڣ��½���ֵ��
-�ֵ�.update(�ֵ�2) ���ֵ�2�����ݺϲ����ֵ�1��ע�⣺������ϲ����ֵ��а����Ѿ����ڵļ�ֵ�ԣ��Ḳ��ԭ�еļ�ֵ�ԡ�
+使用：
+len(字典） 获取字典的 键值对数量
+字典.keys()  所有key 列表
+字典.values() 所有value 列表
+字典.items() 所有（key,value）元组列表
+字典[key] 可以从字典中取值，key不存在会报错
+字典.get(key) 可以从字典中取值，key不存在不会报错
+del 字典[key] 删除指定键值对，key 不存在会报错
+字典.pop(key) 删除指定键值对，key 不存在会报错
+字典.popitem() 随机删除一个键值对
+字典.clear() 清空字典
+字典[key]=value 如果key存在，修改数据，如果key不存在，新键键值对
+字典.setdefault(key,value) 如果key存在，不会修改数据；如果key不存在，新建键值对
+字典.update(字典2) 将字典2的数据合并到字典1，注意：如果被合并的字典中包含已经存在的键值对，会覆盖原有的键值对。
 
-�ֵ��ѭ������
-���� �������� ���ֵ��л�ȡ���м�ֵ��
-# for ѭ���ڲ�ʹ�õ� key �ı��� in �ֵ�
+字典的循环遍历
+遍历 就是依次 从字典中获取所有键值对
+# for 循环内部使用的 key 的变量 in 字典
 for k in xiaoming:
     print("%s:%s" % (k,xiaoming[k]))
 
-�ֵ�Ӧ�ó���
-ʹ�� �����ֵ�ԣ��洢 ����һ�� ���� �������Ϣ--���������ӵ�������Ϣ
-�� ����ֵ� ���� һ���б� �У��ٽ��б�������ѭ�����ڲ����ÿһ���ֵ���� ��ͬ����
+字典应用场景
+使用 多个键值对，存储 描述一个 物体 的相关信息--描述更复杂的数据信息
+将 多个字典 放在 一个列表 中，再进行遍历，在循环体内部针对每一个字典进行 相同处理
  
 
-----�ַ���
-��python�У���Ȼ������\" ���� \' ���ַ�����ת�壬������ʵ�ʿ����У�
-����ַ����ڲ���Ҫʹ�� " ������ʹ�� ' �����ַ���
-����ַ����ڲ���Ҫʹ�� ' ������ʹ�� " �����ַ���
-����ʹ�� ���� ��ȡһ���ַ����� ָ��λ�õ��ַ�
-Ҳ����ʹ�� for ѭ������ �ַ�����ÿһ���ַ� 
-��������Զ����� " �������ַ���
-len(�ַ����� ��ȡ�ַ����ĳ���
-�ַ���.count(�ַ���) С�ַ����ڴ��ַ����г��ֵĴ���
-�ַ���[����] ���ַ�����ȡ�������ַ�
-�ַ���.index(�ַ���) ��� С�ַ��� ��һ�γ��ֵ�����
+----字符串
+在python中，虽然可以用\" 或者 \' 做字符串的转义，但是在实际开发中：
+如果字符串内部需要使用 " ，可以使用 ' 定义字符串
+如果字符串内部而要使用 ' ，可以使用 " 定义字符串
+可以使用 索引 获取一个字符串中 指定位置的字符
+也可以使用 for 循环遍历 字符串中每一个字符 
+大多数语言都是用 " 来定义字符串
+len(字符串） 获取字符串的长度
+字符串.count(字符串) 小字符串在大字符串中出现的次数
+字符串[索引] 从字符串中取出单个字符
+字符串.index(字符串) 获得 小字符串 第一次出现的索引
 
-�ж����ֵ�����������
-string.isdecimal() ���stringֻ���������򷵻�Ture,ȫ������  
-string.isdigit()  ���stringֻ���������򷵻�Ture,ȫ�����֡�(1)��\u00b2 ��unicode �ַ�����
-string.isnumeric()  ���stringֻ���������򷵻�Ture,ȫ������,�������֣����磺һǧ��һ��
-�������������������ж�С��������С��������False
+----判断数字的三个方法：
+string.isdecimal() 如果string只包含数字则返回Ture,全解数字  
+string.isdigit()  如果string只包含数字则返回Ture,全解数字、(1)、\u00b2 （unicode 字符串）
+string.isnumeric()  如果string只包含数字则返回Ture,全解数字,汉字数字（例如：一千零一）
+以上三个方法都不能判断小数，遇到小数都返回False
+
+----查找和替换
+string.startswith(str)		检查字符串是否是以str开头，是则返回True
+string.endswith(str)		检查字符串是否是以str结束，是则返回True
+string.find(str,start=0,end=len(string))	检测str是否包含在string中，如果start和end指定范围，则检查是否包含在指定范围内，如果是返回开始的索引值，否则返回-1
+string.rfind(str,start=0,end=len(string))	类似于find()函数，不过是从右边开始查找
+string.index(str,start=0,end=len(string))	跟find()方法类似，只不过如果str不在string会报错
+string.rindex(str,start=0,end=len(string))	类似于index(),不过是从右边开始
+string.replace(old_str,new_str,num=string.count(old))	把string中的old_str替换成new_str，如果num指定，则替换不超过num次 ，replace并不会修改原有字符的内容。
+
+-----大小写转换
+string.capitalize()	把字符串的第一个字符大写
+string.title()		把字符串的每个单词首字母大写
+string.lower()		转换string中所有大写字符为小字
+string.upper()		转换string中的小字字母为大写
+string.swapcase()	翻转string中的大小写
+
+----文本对齐
+string.ljust(with)	返回一个原字符串左对齐，并使用空格填充至长度with的新字符串
+string.rjust(with)	返回一个原字符串右对齐，并使用空格填充至长度with的新字符串
+string.center(with)	返回一个原字符串居中，并使用空格填充至长度 with 的新字符串，center默认在输出字符串的前后增加一个英文空格.
+
+-----去除空白字符
+string.lstrip()		截掉string左边（开始）的空白字符
+string.rstrip()		截掉string右边（末尾）的空白字符
+string.strip()		截掉string左右两边的空白字符
+单词：strip 去掉，脱掉
+
+#先使用strip方法去除字符串的空白字符，再使用center方法居中显示文本
+print("|%s|" % poem_str.strip().center(10,"  "))
 
 
-
+-----拆分和连接
+string.partition(str)		把字符串string分成一个3
 
