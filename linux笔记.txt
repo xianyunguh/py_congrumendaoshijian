@@ -1,0 +1,12 @@
+﻿ifconfig eth0 192.168.118.2  临时更改IP，重启后会失效
+/boot/ 这个目录如果写满了，系统将无法启动，并且最好 将这个目录做一下备份
+
+
+mkdir  
+	命令所在路径：/bin/mkdir
+	-p  递归创建
+	例：
+		mkdir -p /tmp/japan/boduo
+		mkdir /tmp/japan/longze/tmp/japan/cangjing
+
+
