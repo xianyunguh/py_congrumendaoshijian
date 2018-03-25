@@ -331,6 +331,7 @@
     执行权限：所有用户
     语法：ln -s [原文件] [目标文件]
            -s 创建软链接
+           不加选项，默认创建硬链接
     功能描述：生成链接文件
     范例：
         $ ln -s /etc/issue /tmp/issue.soft
@@ -339,27 +340,28 @@
         创建文件/etc/issue的硬链接/tmp/issue.hard
 
     软链接特征：类似Windows快捷方式
-        1、lrwxrwxrwx l 软链接
-        软链接文件权限都为rwxrwxrwx
-        2、文件大小-只是符号链接
-        3、/tmp/issue.soft -> /etc/issue
-        箭头指向原文件
+        1、lrwxrwxrwx  最左边的 l 代表的是软链接，软链接文件权限都为rwxrwxrwx
+        2、文件大小：只是符号链接
+        3、/tmp/issue.soft -> /etc/issue      箭头指向原文件
 
     硬链接特征：
-        1、拷贝cp -p + 同步更新
+        1、相当于cp -p + 同步更新
         echo "this is a test" >> /etc/motd
-        2、可通过i节点识别
+        2、可通过i节点识别 （ls  -i  文件名   可以查看文件的i节点）
+            一个文件肯定有一个i节点，但一个i节点可以对应多个文件，
+            硬链接文件与原文件的i节点是相同的。
         3、不能跨分区
         4、不能针对目录使用
 
---权限管理命令：chmod
+--权限管理命令：chmod （只有文件或目录所有者，或者root才有这样的权限）
     命令名称：chmod
     命令英文原意：change the permissions mode of a file
     命令所在路径：/bin/chmod
     执行权限：所有用户
     语法：chmod [{ugoa}{+-=}{rwx}] [文件或目录]
-                [mode=421 ] [文件或目录]
+          或：  [mode=421 ] [文件或目录]
                 -R 递归修改
+                解释：{ugoa} 其中的u是指所有者，g是指所属群组，o指其他用户，a指所有人
     功能描述：改变文件或目录权限
 
     权限的数字表示
@@ -371,14 +373,38 @@
 
     范例：
         $ chmod g+w testfile        赋予文件testfile所属组写权限
+        $ chmod u+x testfile        赋予文件testfile所有者可执行权限
+        $ chmod g+w,o-r testfile    赋予文件testfile所属组可写权限，并且去掉其他用户的可读权限
+        $ chmod g=rwx testfile      不管原来所属组拥有什么的权限，现在所属组权限都改成rwx
+        $ chmod 640 testfile
         $ chmod -R 777 testdir      修改目录testfile及其目录下文件为所有用户具有全部权限
 
-    文件目录权限总结
-        r 读权限   可以查看文件内容,可以列出目录中的内容
-        w 写权限  可以修改文件内容,可以在目录中创建、删除文件
-        x 执行权限  可以执行文件,可以进入目录
+    文件、目录权限总结
+        r 读权限     文件：可以查看文件内容(cat/more/head/tail/less)；
+                     目录：可以列出目录中的内容(ls)
+        w 写权限     文件：可以修改文件内容vim；
+                     目录：可以在目录中创建、删除文件(touch/mkdir/rmdir/rm)
+        x 执行权限   文件：可以执行文件(script command)；
+                     目录：可以进入目录（cd)
+        '''
+        练习：
+            mkdir /temp
+            touch /temp/testfile
+            chmod 777 /temp
+            ls -ld /temp
+            ls -l /temp/testfile
+            这时普通用户能不能删除 /temp/testfile 呢？
+            useradd linzhiling
+            passwd linzhiling
+            用 linzhiling 登陆
+            rm /temp/testfile
+            证明可以删除
 
---权限管理命令：chown
+            结论：对文件有写权限，只是可以修改文件的内容，
+            但删除一个文件的条件是对这个文件所在目录有写权限。
+        '''
+
+--权限管理命令：chown （只有root才能做这样的操作）
     命令名称：chown
     命令英文原意：change file ownership
     命令所在路径：/bin/chown
@@ -403,8 +429,13 @@
     执行权限：所有用户
     语法：umask [-S]
             -S 以rwx形式显示新建文件缺省权限
-    功能描述：显示、设置文件的缺省权限
+    功能描述：显示、设置文件或目录的缺省权限
     范例： $ umask -S
+    注意：linux 任何新创建的文件，缺省是不能执行权限的。
+          如果不加-S参数，则显示类似0022这样的数字，第一个0代表的是特殊权限，
+          实际权限是777-022=755  而这个算出来的755称做俺码值。如果想改缺省权限，
+          应该是类似这样：umask 023   (023是算出来的，777-754=023，这样最后得到
+          的缺省权限是023），但实际上Linux默认的权限是比较合理的，尽量不要改。
 
 --文件搜索命令：find
     命令名称：find
@@ -851,15 +882,695 @@ ESC键：
             功能选择不如源码包灵活
             依赖性
 
+--RPM包管理-rpm命令管理
+    1、RPM包命名原则
+        httpd-2.2.15-15.el6.centos.1.i686.rpm
+        httpd软件包名
+        2.2.15软件版本
+        15软件发布的次数
+        el6.centos适合的Linux平台
+        i686适合的硬件平台
+        rpmrpm包扩展名
+
+    2、RPM包依赖性
+        树形依赖：abc
+        环形依赖：abca
+        模块依赖：模块依赖查询网站：www.rpmfind.net
+
+--RPM包管理-yum在线管理
+    1、包全名与包名
+         包全名：操作的包是没有安装的软件包时，使用包全名。而且要注意路径
+         包名：操作已经安装的软件包时，使用包名。
+        是搜索/var/lib/rpm/中的数据库
+
+    2、RPM安装
+        rpm –ivh 包全名
+        选项：
+            -i（install） 安装
+            -v（verbose） 显示详细信息
+            -h（hash） 显示进度
+            --nodeps 不检测依赖性
+
+    3、RPM包升级
+        rpm -Uvh 包全名
+        选项：
+            -U（upgrade） 升级
+
+    3、卸载
+        rpm -e 包名
+        选项：
+            -e（erase） 卸载
+            --nodeps 不检查依赖性
+
+--rpm命令管理-RPM包查询
+    1、查询是否安装
+    [root@localhost ~]# rpm -q 包名
+    #查询包是否安装
+    选项：
+        -q查询（query）
+    [root@localhost ~]# rpm –qa
+    #查询所有已经安装的RPM包
+    选项：
+        -a所有（all）
+
+    2、查询软件包详细信息
+    [root@localhost ~]# rpm –qi 包名
+    选项：
+        -i查询软件信息（information）
+        -p查询未安装包信息（package）
+
+    3、查询包中文件安装位置
+    [root@localhost ~]# rpm –ql 包名
+    选项：
+        -l列表（list）
+        -p查询未安装包信息（package）
+
+    4、查询系统文件属于哪个RPM包
+    [root@localhost ~]# rpm –qf 系统文件名
+    选项：
+        -f查询系统文件属于哪个软件包（file）
+
+    5、查询软件包的依赖性
+    [root@localhost ~]# rpm –qR 包名
+    选项：
+        -R查询软件包的依赖性（requires）
+        -p查询未安装包信息（package）
+
+--rpm命令管理-校验与文件提取
+    1、RPM包校验
+    [root@localhost ~]# rpm –V 已安装的包名
+    选项：
+        -V 校验指定RPM包中的文件（verify）
+
+    验证内容中的8个信息的具体内容如下：
+         S 文件大小是否改变
+         M 文件的类型或文件的权限（rwx）是否被改变
+         5 文件MD5校验和是否改变（可以看成文件内容是否改变）
+         D 设备的中，从代码是否改变
+         L 文件路径是否改变
+         U 文件的属主（所有者）是否改变
+         G 文件的属组是否改变
+         T 文件的修改时间是否改变
+
+    文件类型
+         c 配置文件（config file）
+         d 普通文档（documentation）
+         g “鬼”文件（ghost file），很少见，就是该文件不应该被这个RPM包包含
+         l 授权文件（license file）
+         r 描述文件（read me）
+
+    2、RPM包中文件提取
+        [root@localhost ~]# rpm2cpio 包全名| \
+        cpio -idv .文件绝对路径
+        rpm2cpio
+        #将rpm包转换为cpio格式的命令
+        cpio
+        #是一个标准工具，它用于创建软件档案文件和从档案文件中提取文件
+
+        [root@localhost ~]# cpio 选项< [文件|设备]
+        选项：
+            -i：copy-in模式，还原
+            -d：还原时自动新建目录
+            -v：显示还原过程
+
+        [root@localhost ~]# rpm -qf /bin/ls
+        #查询ls命令属于哪个软件包
+        [root@localhost ~]# mv /bin/ls /tmp/
+        #造成ls命令误删除假象
+        [root@localhost ~]# rpm2cpio /mnt/cdrom/Packages/coreutils-
+        8.4-19.el6.i686.rpm | cpio -idv ./bin/ls
+        #提取RPM包中ls命令到当前目录的/bin/ls下
+        [root@localhost ~]# cp /root/bin/ls /bin/
+        #把ls命令复制会/bin/目录，修复文件丢失
+
+--RPM包管理-yum在线管理
+--IP地址配置和网络yum源
+    1、IP地址配置
+        [root@localhost ~]# setup
+        #使用setup工具
+        [root@localhost ~]# vi /etc/sysconfig/network-scripts/ifcfg-eth0
+        把ONBOOT=“no” 改为
+        ONBOOT=“yes“
+        #启动网卡
+        [root@localhost ~]# service network restart
+        #重启网络服务
+
+    2、网络yum源
+        [root@localhost yum.repos.d]# vi /etc/yum.repos.d/CentOS-Base.repo
+        [base] 容器名称，一定要放在[]中
+        name容器说明，可以自己随便写
+        mirrorlist镜像站点，这个可以注释掉
+        baseurl我们的yum源服务器的地址。默认是CentOS官方的yum源服务器，是可以使用的，如果你觉得慢可以改成你喜欢的yum源地址
+        enabled此容器是否生效，如果不写或写成enable=1都是生效，写成enable=0就是不生效
+        gpgcheck如果是1是指RPM的数字证书生效，如果是0则不生效
+        gpgkey数字证书的公钥文件保存位置。不用修改
+
+--yum命令
+    1、常用yum命令
+        1）查询
+            [root@localhost yum.repos.d]# yum list
+            #查询所有可用软件包列表
+            [root@localhost yum.repos.d]# yum search 关键字
+            #搜索服务器上所有和关键字相关的包
+        2）安装
+            [root@localhost yum.repos.d]# yum –y install 包名
+            选项：
+                install 安装
+                -y 自动回答yes
+        3）升级
+            [root@localhost yum.repos.d]# yum -y update 包名
+            选项：
+                update 升级
+                -y 自动回答yes
+        4）卸载
+            [root@localhost yum.repos.d]# yum -y remove 包名
+            选项：
+                remove 卸载
+                -y 自动回答yes
+
+    2、YUM软件组管理命令
+        [root@localhost ~]# yum grouplist
+        #列出所有可用的软件组列表
+        [root@localhost ~]# yum groupinstall 软件组名
+        #安装指定软件组，组名可以由grouplist查询出来
+        [root@localhost ~]# yum groupremove 软件组名
+        #卸载指定软件组
+
+--光盘yum源搭建
+    光盘yum源搭建步骤
+        1）挂载光盘
+            [root@localhost ~]# mount /dev/cdrom /mnt/cdrom/
+        2）让网络yum源文件失效
+            [root@localhost ~]# cd /etc/yum.repos.d/
+            [root@localhost yum.repos.d]# mv CentOS-Base.repo \
+            CentOS-Base.repo.bak
+            [root@localhost yum.repos.d]# mv CentOS-Debuginfo.repo \
+            CentOS-Debuginfo.repo.bak
+            [root@localhost yum.repos.d]# mv CentOS-Vault.repo \
+            CentOS-Vault.repo.bak
+        3）修改光盘yum源文件
+            [root@localhost yum.repos.d]# vim CentOS-Media.repo
+            [c6-media]
+            name=CentOS-$releasever - Media
+            baseurl=file:///mnt/cdrom
+            #地址为你自己的光盘挂载地址
+            # file:///media/cdrom/
+            # file:///media/cdrecorder/
+            #注释这两个不存在的地址
+            gpgcheck=1
+            enabled=1
+            #把enabled=0改为enabled=1，让这个yum源配置文件生效
+            gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+
+--源码包和RPM包的区别
+    1、区别
+         安装之前的区别：概念上的区别
+         安装之后的区别：安装位置不同
+
+    2、RPM包安装位置
+         是安装在默认位置中
+        RPM包默认安装路径
+            /etc/ 配置文件安装目录
+            /usr/bin/ 可执行的命令安装目录
+            /usr/lib/ 程序所使用的函数库保存位置
+            /usr/share/doc/ 基本的软件使用手册保存位置
+            /usr/share/man/ 帮助文件保存位置
+
+    3、源码包安装位置
+         安装在指定位置当中，一般是/usr/local/软件名/
+
+    4、安装位置不同带来的影响
+        RPM包安装的服务可以使用系统服务管
+        理命令（service）来管理，例如RPM包安
+        装的apache的启动方法是：
+             /etc/rc.d/init.d/httpd start
+             service httpd start
+         而源码包安装的服务则不能被服务管理命令管理，因为没有安装到默认路径中。
+        所以只能用绝对路径进行服务的管理，如：
+         /usr/local/apache2/bin/apachectl start
+
+--源码包安装过程
+    1、安装准备
+         安装C语言编译器
+         下载源码包
+        http://mirror.bit.edu.cn/apache/httpd/
+    2、安装注意事项
+         源代码保存位置：/usr/local/src/
+         软件安装位置：/usr/local/
+         如何确定安装过程报错：
+             安装过程停止
+             并出现error、warning或no的提示
+    3、源码包安装过程
+         下载源码包
+         解压缩下载的源码包
+         进入解压缩目录
+         ./configure 软件配置与检查
+             定义需要的功能选项。
+             检测系统环境是否符合安装要求。
+             把定义好的功能选项和检测系统环境的信息
+            都写入Makefile文件，用于后续的编辑。
+         make 编译
+         make clean
+         make install 编译安装
+    4、源码包的卸载
+         不需要卸载命令，直接删除安装目录即可。
+        不会遗留任何垃圾文件。
+
+--脚本安装包
+    1、脚本安装包
+         脚本安装包并不是独立的软件包类型，常见安装的是源码包。
+         是人为把安装过程写成了自动安装的脚本，
+        只要执行脚本，定义简单的参数，就可以完成安装。
+         非常类似于Windows下软件的安装方式。
+    2、Webmin的作用
+        Webmin 是一个基于Web 的Linux 系统管理界面。您就可以通过图形化的方式设置
+        用户帐号、Apache、DNS、文件共享等服务。
+    3、Webmin安装过程
+         下载软件
+             http://sourceforge.net/projects/webadmin/files/webmin/
+         解压缩，并进入加压缩目录
+         执行安装脚本
+
+--用户信息文件/etc/passwd
+    1、用户管理简介
+         所以越是对服务器安全性要求高的服务器，越需要建立合理的用户权限等级制度和
+        服务器操作规范。
+         在Linux中主要是通过用户配置文件来查看和修改用户信息
+
+    2、/etc/passwd
+         第1字段：用户名称
+         第2字段：密码标志
+         第3字段：UID（用户ID）
+             0： 超级用户
+             1-499： 系统用户（伪用户）
+             500-65535： 普通用户
+         第4字段：GID（用户初始组ID）
+         第5字段：用户说明
+         第6字段：家目录
+             普通用户：/home/用户名/
+             超级用户：/root/
+         第7字段：登录之后的Shell
+
+    3、初始组和附加组
+         初始组：就是指用户一登录就立刻拥有这个用户组的相关权限，每个用户的初
+        始组只能有一个，一般就是和这个用户的用户名相同的组名作为这个用户的初始组。
+         附加组：指用户可以加入多个其他的用户组，并拥有这些组的权限，
+        附加组可以有多个。
+
+    4、Shell是什么
+         Shell就是Linux的命令解释器。
+         在/etc/passwd当中，除了标准Shell是/bin/bash之外，
+        还可以写如/sbin/nologin，/usr/bin/passwd等。
+
+--影子文件/etc/shadow
+    1、影子文件/etc/shadow
+         第1字段：用户名
+         第2字段：加密密码
+             加密算法升级为SHA512散列加密算法
+             如果密码位是“!!”或“*”代表没有密码，不能登录
+         第3字段：密码最后一次修改日期
+             使用1970年1月1日作为标准时间，每过一天时间戳加1
+         第4字段：两次密码的修改间隔时间（和第3字段相比）
+         第5字段：密码有效期（和第3字段相比）
+         第6字段：密码修改到期前的警告天数（和第5字段相比）
+         第7字段：密码过期后的宽限天数（和第5字段相比）
+             0：代表密码过期后立即失效
+             -1：则代表密码永远不会失效。
+         第8字段：账号失效时间
+             要用时间戳表示
+         第9字段：保留
+
+    2、时间戳换算
+         把时间戳换算为日期
+             date -d "1970-01-01 16066 days"
+         把日期换算为时间戳
+             echo $(($(date --date="2014/01/06" +%s)/86400+1))
+
+--组信息文件/etc/group和组密码文件/etc/gshadow
+    1、组信息文件/etc/group
+         第一字段：组名
+         第二字段：组密码标志
+         第三字段：GID
+         第四字段：组中附加用户
+    2、组密码文件/etc/gshadow
+        第一字段：组名
+        第二字段：组密码
+        第三字段：组管理员用户名
+        第四字段：组中附加用户
+
+--用户管理相关文件
+    1、用户的家目录
+         普通用户：/home/用户名/，所有者和所属组都是此用户，权限是700
+         超级用户：/root/，所有者和所属组都是root用户，权限是550
+    2、用户的邮箱
+         /var/spool/mail/用户名/
+    3、用户模板目录
+         /etc/skel/
+
+--用户添加命令useradd
+    1、useradd命令格式
+        [root@localhost ~]#useradd [选项] 用户名
+        选项：
+            -u UID： 手工指定用户的UID号
+            -d 家目录： 手工指定用户的家目录
+            -c 用户说明： 手工指定用户的说明
+            -g 组名： 手工指定用户的初始组
+            -G 组名： 指定用户的附加组
+            -s shell： 手工指定用户的登录shell。默认是/bin/bash
+    2、添加默认用户
+         [root@localhost ~]# useradd lamp
+             [root@localhost ~]# grep "lamp" /etc/passwd
+             [root@localhost ~]# grep "lamp" /etc/shadow
+             [root@localhost ~]# grep "lamp" /etc/group
+             [root@localhost ~]# grep "lamp" /etc/gshadow
+             [root@localhost ~]# ll -d /home/lamp/
+             [root@localhost ~]# ll /var/spool/mail/lamp
+    3、指定选项添加用户
+         groupadd lamp1
+         useradd -u 550 -g lamp1 -G root -d /home/lamp1 \
+        -c "test user" -s /bin/bash lamp1
+    4、用户默认值文件
+         /etc/default/useradd
+             GROUP=100 #用户默认组
+             HOME=/home #用户家目录
+             INACTIVE=-1 #密码过期宽限天数（7）
+             EXPIRE= #密码失效时间（8）
+             SHELL=/bin/bash #默认shell
+             SKEL=/etc/skel #模板目录
+             CREATE_MAIL_SPOOL=yes #是否建立邮箱
+         /etc/login.defs
+             PASS_MAX_DAYS 99999 #密码有效期（5）
+             PASS_MIN_DAYS 0 #密码修改间隔（4）
+             PASS_MIN_LEN 5 #密码最小5位（PAM）
+             PASS_WARN_AGE 7 #密码到期警告（6）
+             UID_MIN 500 #最小和最大UID范围
+             GID_MAX 60000
+             ENCRYPT_METHOD SHA512 #加密模式
+
+--修改用户密码passwd
+    1、passwd命令格式
+        [root@localhost ~]#passwd [选项] 用户名
+        选项：
+            -S 查询用户密码的密码状态。仅root用户可用。
+            -l 暂时锁定用户。仅root用户可用
+            -u 解锁用户。仅root用户可用
+            --stdin 可以通过管道符输出的数据作为用户的密码。
+    2、查看密码状态
+         [root@localhost ~]# passwd -S lamp
+            lamp PS 2013-01-06 0 99999 7 -1
+            #用户名 密码设定时间（2013-01-06） 密码修改间隔时间（0）
+            #密码有效期（99999 ） 警告时间（7） 密码不失效（-1）
+    3、锁定用户和解锁用户
+         [root@localhost ~]# passwd -l lamp
+         [root@localhost ~]# passwd -u lamp
+    4、使用字符串作为用户的密码
+         [root@localhost ~]# echo "123" | passwd --stdin lamp
+
+--修改用户信息usermod,修改用户密码状态chage
+    1、修改用户信息usermod
+        [root@localhost ~]#usermod [选项] 用户名
+        选项：
+            -u UID： 修改用户的UID号
+            -c 用户说明： 修改用户的说明信息
+            -G 组名： 修改用户的附加组
+            -L： 临时锁定用户（Lock）
+            -U： 解锁用户锁定（Unlock）
+         [root@localhost ~]# usermod -c "test user" lamp
+        #修改用户的说明
+         [root@localhost ~]# usermod -G root lamp
+        #把lamp用户加入root组
+         [root@localhost ~]# usermod -L lamp
+        #锁定用户
+         [root@localhost ~]# usermod -U lamp
+        #解锁用户
+
+    2、修改用户密码状态chage
+        [root@localhost ~]#chage [选项] 用户名
+        选项：
+            -l： 列出用户的详细密码状态
+            -d 日期： 修改密码最后一次更改日期（shadow3字段）
+            -m 天数： 两次密码修改间隔（4字段）
+            -M 天数： 密码有效期（5字段）
+            -W 天数： 密码过期前警告天数（6字段）
+            -I 天数： 密码过后宽限天数（7字段）
+            -E 日期： 账号失效时间（8字段）
+         [root@localhost ~]# chage -d 0 lamp
+        #这个命令其实是把密码修改日期归0了（shadow第3字段）
+        #这样用户一登陆就要修改密码
+
+--删除用户userdel,用户切换命令su
+    1、删除用户userdel
+        [root@localhost ~]# userdel [-r] 用户名
+        选项：
+           -r 删除用户的同时删除用户家目录
+    手工删除用户
+         [root@localhost ~]# vi /etc/passwd
+         [root@localhost ~]# vi /etc/shadow
+         [root@localhost ~]# vi /etc/group
+         [root@localhost ~]# vi /etc/gshadow
+         [root@localhost ~]# rm -rf /var/spool/mail/lamp
+         [root@localhost ~]# rm -rf /home/lamp/
+    2、查看用户ID
+       [root@localhost ~]# id 用户名
+    3、切换用户身份su
+        [root@localhost ~]# su [选项] 用户名
+        选项：
+            - ： 选项只使用“-”代表连带用户的环境变量一起切换
+            -c 命令： 仅执行一次命令，而不切换用户身份
+         [lamp@localhost ~]$ su – root
+        #切换成root
+         [lamp@localhost ~]$ su - root -c "useradd user3"
+        #不切换成root，但是执行useradd命令添加user1用户
+
+--用户组管理命令
+
+--ACL权限简介与开启
+    1、ACL权限简介
+    2、查看分区ACL权限是否开启
+        [root@localhost ~]# dumpe2fs -h /dev/sda3
+        #dumpe2fs命令是查询指定分区详细文件系统信息的命令
+        选项：
+            -h 仅显示超级块中信息，而不显示磁盘块组的详细信 息
+    3、临时开启分区ACL权限
+        [root@localhost ~]# mount -o remount,acl /
+        #重新挂载根分区，并挂载加入acl权限
+    4、永久开启分区ACL权限
+        [root@localhost ~]# vi /etc/fstab
+        UUID=c2ca6f57-b15c-43ea-bca0-f239083d8bd2 / ext4 defaults,acl 1 1
+        #加入acl
+        [root@localhost ~]# mount -o remount /
+        #重新挂载文件系统或重启动系统，使修改生效
+
+--查看与设定ACL权限
+    1、查看ACL命令
+        [root@localhost ~]# getfacle 文件名
+        #查看acl权限
+    2、设定ACL权限的命令
+        [root@localhost ~]# setfacl 选项 文件名
+        选项：
+            -m 设定ACL权限
+            -x 删除指定的ACL权限
+            -b 删除所有的ACL权限
+            -d 设定默认ACL权限。
+            -k 删除默认ACL权限
+            -R 递归设定ACL权限。
+    3、给用户设定ACL权限
+        [root@localhost ~]# useradd zhangsan
+        [root@localhost ~]# useradd lisi
+        [root@localhost ~]# useradd st
+        [root@localhost ~]# groupadd tgroup
+        [root@localhost ~]# mkdir /project
+        [root@localhost ~]# chown root:tgroup /project/
+        [root@localhost ~]# chmod 770 /project/
+        [root@localhost ~]# setfacl -m u:st:rx /project/
+        #给用户st赋予r-x权限，使用“u:用户名:权限”格式
+    4、给用户组设定ACL权限
+        [root@localhost /]# groupadd tgroup2
+        [root@localhost /]# setfacl -m g:tgroup2:rwx project/
+        #为组tgroup2分配ACl权限。使用“g:组名:权限”格式
+
+--最大有效权限与删除ACL权限
+    1、最大有效权限mask
+         mask是用来指定最大有效权限的。如果
+        我给用户赋予了ACL权限，是需要和
+        mask的权限“相与”才能得到用户的真
+        正权限
+
+        A B and
+        r r r
+        r - -
+        - r -
+        - - -
+        修改最大有效权限
+        [root@localhost /]# setfacl -m m:rx 文件名
+        #设定mask权限为r-x。使用“m:权限”格式
+    2、删除ACL权限
+        [root@localhost /]# setfacl -x u:用户名 文件名
+        #删除指定用户的ACL权限
+        [root@localhost /]# setfacl -x g:组名 文件名
+        #删除指定用户组的ACL权限
+        [root@localhost /]# setfacl -b 文件名
+        #会删除文件的所有的ACL权限
+
+--默认ACL权限和递归ACL权限
+    1、递归ACL权限
+         递归是父目录在设定ACL权限时，所有的子文
+        件和子目录也会拥有相同的ACL权限。
+         setfacl -m u:用户名:权限 -R 文件名
+    2、默认ACL权限
+         默认ACL权限的作用是如果给父目录设定
+        了默认ACL权限，那么父目录中所有新建
+        的子文件都会继承父目录的ACL权限。
+         setfacl -m d:u:用户名:权限 文件名
+
+--文件特殊权限SetUID
+    1、SetUID的功能
+         只有可以执行的二进制程序才能设定SUID权限
+         命令执行者要对该程序拥有x（执行）权限
+         命令执行者在执行该程序时获得该程序文件属
+        主的身份（在执行程序的过程中灵魂附体为文
+        件的属主）
+         SetUID权限只在该程序执行过程中有效，也就
+        是说身份改变只在程序执行过程中有效
+         passwd命令拥有SetUID权限，所以普通可以修
+        改自己的密码
+        [root@localhost ~]# ll /usr/bin/passwd
+        -rwsr-xr-x. 1 root root 25980 2月 22 2012 /usr/bin/passwd
+         cat命令没有SetUID权限，所以普通用户不能查
+        看/etc/shadow文件内容
+        [root@localhost ~]# ll /bin/cat
+        -rwxr-xr-x 1 root root 47976 6月 22 2012 /bin/cat
+
+    2、设定SetUID的方法
+         4代表SUID
+             chmod 4755 文件名
+             chmod u+s 文件名
+    3、取消SetUID的方法
+         chmod 755 文件名
+        chmod u-s 文件名
+    4、危险的SetUID
+         关键目录应严格控制写权限。比如“/”
+        、“/usr”等
+         用户的密码设置要严格遵守密码三原则
+         对系统中默认应该具有SetUID权限的文件
+        作一列表，定时检查有没有这之外的文件
+        被设置了SetUID权限
+
+--文件特殊权限SetGID
+    1、SetGID针对文件的作用
+         只有可执行的二进制程序才能设置SGID权限
+         命令执行者要对该程序拥有x（执行）权限
+         命令执行在执行程序的时候，组身份升级为该
+        程序文件的属组
+         SetGID权限同样只在该程序执行过程中有效，
+        也就是说组身份改变只在程序执行过程中有效
+        [root@localhost ~]# ll /usr/bin/locate
+        -rwx--s--x 1 root slocate 35612 8月 24 2010 /usr/bin/locate
+        [root@localhost ~]# ll /var/lib/mlocate/mlocate.db
+        -rw-r----- 1 root slocate 1838850 1月 20 04:29 /var/lib/mlocate/mlocate.db
+         /usr/bin/locate是可执行二进制程序，可以赋予
+        SGID
+         执行用户lamp对/usr/bin/locate命令拥有执行权限
+         执行/usr/bin/locate命令时，组身份会升级为slocate
+        组，而slocate组对/var/lib/mlocate/mlocate.db数据
+        库拥有r权限，所以普通用户可以使用locate命令
+        查询mlocate.db数据库
+         命令结束，lamp用户的组身份返回为lamp组
+
+    2、SetGID针对目录的作用
+         普通用户必须对此目录拥有r和x权限，才
+        能进入此目录
+         普通用户在此目录中的有效组会变成此目
+        录的属组
+         若普通用户对此目录拥有w权限时，新建
+        的文件的默认属组是这个目录的属组
+        [root@localhost ~]# cd /tmp/
+        [root@localhost tmp]# mkdir dtest
+        [root@localhost tmp]# chmod g+s dtest
+        [root@localhost tmp]# ll -d dtest/
+        [root@localhost tmp]# chmod 777 dtest/
+        [root@localhost tmp]# su – lamp
+        [lamp@localhost ~]$ cd /tmp/dtest/
+        [lamp@localhost dtest]$ touch abc
+        [lamp@localhost dtest]$ ll
+
+    3、设定SetGID
+         2代表SGID
+             chmod 2755 文件名
+             chmod g+s 文件名
+    4、取消SetGID
+         chmod 755 文件名
+        chmod g-s 文件名
+
+--文件特殊权限Sticky BIT
+    1、SBIT粘着位作用
+         粘着位目前只对目录有效
+         普通用户对该目录拥有w和x权限，即普通用户
+        可以在此目录拥有写入权限
+         如果没有粘着位，因为普通用户拥有w权限，
+        所以可以删除此目录下所有文件，包括其他用
+        户建立的文件。一但赋予了粘着位，除了root可
+        以删除所有文件，普通用户就算拥有w权限，
+        也只能删除自己建立的文件，但是不能删除其
+        他用户建立的文件
+        [root@localhost ~]# ll -d /tmp/
+        drwxrwxrwt. 3 root root 4096 12月 13 11:22 /tmp/
+    2、设置与取消粘着位
+         设置粘着位
+             chmod 1755 目录名
+             chmod o+t 目录名
+         取消粘着位
+             chmod 777 目录名
+             chmod o-t 目录名
+
+--文件系统属性chattr权限
+    1、chattr命令格式
+        [root@localhost ~]# chattr [+-=] [选项] 文件或目录名
+        +: 增加权限
+        -: 删除权限
+        =: 等于某权限
+     选项
+         i：如果对文件设置i属性，那么不允许对文件进行
+        删除、改名，也不能添加和修改数据；如果对目录
+        设置i属性，那么只能修改目录下文件的数据，但
+        不允许建立和删除文件。
+         a：如果对文件设置a属性，那么只能在文件中增加
+        数据，但是不能删除也不能修改数据；如果对目录
+        设置a属性，那么只允许在目录中建立和修改文件
+        ，但是不允许删除
+    2、查看文件系统属性
+        [root@localhost ~]# lsattr 选项 文件名
+        选项：
+            -a 显示所有文件和目录
+            -d 若目标是目录，仅列出目录本身的属
+            性，而不是子文件的
+
+--系统命令sudo权限
+    1、sudo权限
+         root把本来只能超级用户执行的命令赋予
+        普通用户执行。
+         sudo的操作对象是系统命令
+    2、sudo使用
+        [root@localhost ~]# visudo
+        #实际修改的是/etc/sudoers文件
+        root ALL=(ALL) ALL
+        #用户名 被管理主机的地址=（可使用的身份） 授权命令（绝对路径）
+        # %wheel ALL=(ALL) ALL
+        #%组名 被管理主机的地址=（可使用的身份） 授权命令（绝对路径）
+    3、授权sc用户可以重启服务器
+        [root@localhost ~]# visudo
+        sc ALL= /sbin/shutdown –r now
+    4、普通用户执行sudo赋予的命令
+        [root@localhost ~]# su – sc
+        [sc@localhost ~]$ sudo -l
+        #查看可用的sudo命令
+        [lamp@localhost ~]$ sudo /sbin/shutdown -r now
+        #普通用户执行sudo赋予的命令
+
 ifconfig eth0 192.168.118.2  临时更改IP，重启后会失效
 /boot/ 这个目录如果写满了，系统将无法启动，并且最好 将这个目录做一下备份
 
 
-mkdir  
-	命令所在路径：/bin/mkdir
-	-p  递归创建
-	例：
-		mkdir -p /tmp/japan/boduo
-		mkdir /tmp/japan/longze/tmp/japan/cangjing
+
 
 
