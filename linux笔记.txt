@@ -445,7 +445,8 @@
           应该是类似这样：umask 023   (023是算出来的，777-754=023，这样最后得到
           的缺省权限是023），但实际上Linux默认的权限是比较合理的，尽量不要改。
 
---文件搜索命令：find
+--文件搜索命令：find （应该尽量少用find搜索，因为搜索会占用大量系统资源）
+                在windows下建议用Everything，只支持ntfs分区。
     命令名称：find
     命令所在路径：/bin/find
     执行权限：所有用户
@@ -453,35 +454,55 @@
     功能描述：文件搜索
     范例：
         $ find /etc -name init
-        在目录/etc中查找文件init
-        -iname 不区分大小写
+            在目录/etc中查找文件init（这是一个精准搜索，只有文件名完全匹配才能被找出来）
+            -iname 不区分大小写
+        $ find /etc -name *init*    #搜索文件名包含init的文件
+        $ find /etc -name init*
+        $ find /etc -name init???
+        $ find /etc -iname init???
 
         $ find / -size +204800
-        在根目录下查找大于100MB的文件
-        +n 大于-n 小于n 等于
+            在根目录下查找大于100MB的文件
+            +n 大于     -n 小于       n 等于
+            注意：这里的n 是用字符块来换算的，Linux中1个字符块是512个字节，也就是0.5K
+                    数据块是Linux存储数据的最小单位。
 
         $ find /home -user shenchao
-        在根目录下查找所有者为shenchao的文件
-        -group 根据所属组查找
+            在根目录下查找所有者为shenchao的文件
+            -group 根据所属组查找
 
         $ find /etc -cmin -5
-        在/etc下查找5分钟内被修改过属性的文件和目录
-        -amin 访问时间access
-        -cmin 文件属性change
-        -mmin 文件内容modify
+            在/etc下查找5分钟内被修改过属性的文件和目录
+            -5  这里的减号是指多少时间之内， + 就表示超过多少时间。
+            -amin 访问时间（access）
+            -cmin 文件属性（change） (ls可以看到的信息就是文件属性）
+            -mmin 文件内容（modify）
 
         $ find /etc -size +163840 -a -size -204800
-        在/etc下查找大于80MB小于100MB的文件
-        -a 两个条件同时满足
-        -o 两个条件满足任意一个即可
+            在/etc下查找大于80MB小于100MB的文件
+            -a 两个条件同时满足 （and)
+            -o 两个条件满足任意一个即可 (or)
 
         $ find /etc -name inittab -exec ls -l {} \;
-        在/etc下查找inittab文件并显示其详细信息
-        -exec/-ok 命令{} \; 对搜索结果执行操作
+            在/etc下查找inittab文件并显示其详细信息
+            -exec/-ok  命令  {}  \;     对搜索结果执行操作
+            （ {} 存放find的结果    \ 转义符    ; 结束符    注意{}\之间有空格）
+
+        $ find /etc -name init* -a -type f -exec ls -l {} \;
+         ok 和 exec 的区别：ok需要一个一个确认
+        $ find /home -user shenchao -ok rm {} \;
 
         -type 根据文件类型查找
-        f 文件d 目录l 软链接文件
-        -inum 根据i节点查找
+            f 文件    d 目录    l 软链接文件
+            -inum 根据i节点查找
+
+            i节点可用 ls -i  可查看
+            例如一些特殊的文件名，不知道如何创造出来的，无法输入文件名，这时就可以用i结点来进行操作，比如删除。
+            find . -inum 31531  -exec rm {} \;   （其中31531是要查找删除的文件i节点）
+
+        $ find /etc -name init* -a -type f
+            查找/etc 目录下的init开头的文件，不包括文件夹（-a 并且 ，-type f 文件类型）
+        $ find /etc -name init* -a -type d
 
 --文件搜索命令：locate
     命令名称：locate
