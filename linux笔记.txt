@@ -1567,6 +1567,388 @@ ESC键：
         [lamp@localhost ~]$ sudo /sbin/shutdown -r now
         #普通用户执行sudo赋予的命令
 
+--回顾分区和文件系统
+    1、分区类型
+        主分区：总共最多只能分四个
+        扩展分区：只能有一个，也算作主分区的一种，也就是说主分区加扩展分区最多有四个。但是扩展分区不能存储数据和格式化，必须再划分成逻辑分区才能使用。
+        逻辑分区：逻辑分区是在扩展分区中划分的，如果是IDE硬盘，Linux最多支持59个逻辑分区，如果是SCSI硬盘Linux最多支持11个逻辑分区
+    2、分区表示方法
+                                         ------------扩展分区-------------
+        主分区1    主分区2    主分区3    逻辑分区1   逻辑分区2   逻辑分区3
+
+        上图分区对应的设备文件名
+            主分区1    /dev/sda1
+            主分区2    /dev/sda2
+            主分区3    /dev/sda3
+            扩展分区    /dev/sda4
+            逻辑分区1   /dev/sda5
+            逻辑分区2   /dev/sda6
+            逻辑分区3   /dev/sda7
+
+                   ------------扩展分区-------------
+        主分区1    逻辑分区1   逻辑分区2   逻辑分区3
+
+        上图分区对应的设备文件名
+            主分区1    /dev/sda1
+            扩展分区    /dev/sda2
+            逻辑分区1   /dev/sda5
+            逻辑分区2   /dev/sda6
+            逻辑分区3   /dev/sda7
+
+    2、文件系统
+        ext2：是ext文件系统的升级版本，Red Hat Linux7.2版本以前的系统默认都是
+                ext2文件系统。1993年发布，最大支持16TB的分区和最大2TB的文件
+                （1TB=1024GB=1024*1024KB）
+        ext3：ext3文件系统是ext2文件系统的升级版本，最大的区别就是带日志功能，
+                以在系统突然停止时提高文件系统的可靠性。支持最大16TB的分区和最
+                大2TB的文件
+        ext4：它是ext3文件系统的升级版。ext4 在性能、伸缩性和可靠性方面进行了
+                大量改进。EXT4的变化可以说是翻天覆地的，比如向下兼容EXT3、最大
+                1EB文件系统和16TB文件、无限数量子目录、Extents连续数据块概念、
+                多块分配、延迟分配、持久预分配、快速FSCK、日志校验、无日志模式、
+                在线碎片整理、inode增强、默认启用barrier等。是CentOS 6.3的默认
+                文件系统 （1EB=1024PB=1024*1024TB）
+
+--文件系统常用命令
+--df命令、du命令、fsck命令和dump2fs命令
+    1、文件系统查看命令df
+        [root@localhost ~]# df [选项] [挂载点]
+        选项：
+            -a 显示所有的文件系统信息，包括特殊文件系统，如 /proc、/sysfs
+            -h 使用习惯单位显示容量，如KB，MB或GB等
+            -T 显示文件系统类型
+            -m 以MB为单位显示容量
+            -k 以KB为单位显示容量。默认就是以KB为单位
+    2、统计目录或文件大小
+        [root@localhost ~]# du [选项] [目录或文件名]
+        选项：
+            -a 显示每个子文件的磁盘占用量。默认只统计 子目录的磁盘占用量
+            -h 使用习惯单位显示磁盘占用量，如KB，MB 或GB等
+            -s 统计总占用量，而不列出子目录和子文件的 占用量
+
+    du命令和df命令的区别
+        df命令是从文件系统考虑的，不光要考虑文件占用的空间，还要统计被命令或
+          程序占用的空间（最常见的就是文件已经删除，但是程序并没有释放空间）
+        du命令是面向文件的，只会计算文件或目录占用的空间
+
+    3、文件系统修复命令fsck
+        [root@localhost ~]# fsck [选项] 分区设备文件名
+        选项：
+            -a： 不用显示用户提示，自动修复文件系统
+            -y： 自动修复。和-a作用一致，不过有些文件系统只支 持-y
+    4、显示磁盘状态命令dumpe2fs
+        [root@localhost ~]# dumpe2fs 分区设备文件名
+
+--文件系统常用命令
+    1、查询与自动挂载
+        [root@localhost ~]# mount [-l]
+        #查询系统中已经挂载的设备，-l会显示卷标名称
+        [root@localhost ~]# mount –a
+        #依据配置文件/etc/fstab的内容，自动挂载
+
+    2、挂载命令格式
+        [root@localhost ~]# mount [-t 文件系统] [-L 卷标名] \
+        [-o 特殊选项] 设备文件名 挂载点
+        选项：
+            -t 文件系统：加入文件系统类型来指定挂载的类型，可
+            以ext3、ext4 、iso9660等文件系统
+            -L 卷标名： 挂载指定卷标的分区，而不是安装设
+            备文件名挂载
+            -o 特殊选项：可以指定挂载的额外选项
+
+        参数              说明
+        atime/noatime 更新访问时间/不更新访问时间。访问分区文件时，是否更新文件
+        的访问时间，默认为更新
+        async/sync 异步/同步，默认为异步
+        auto/noauto 自动/手动，mount –a命令执行时，是否会自动安装/etc/fstab文件
+        内容挂载，默认为自动
+        defaults 定义默认值，相当于rw,suid,dev,exec,auto,nouser,async这七个选项
+        exec/noexec 执行/不执行，设定是否允许在文件系统中执行可执行文件，默认
+        是exec允许
+        remount 重新挂载已经挂载的文件系统，一般用于指定修改特殊权限
+        rw/ro 读写/只读，文件系统挂载时，是否具有读写权限，默认是rw
+        suid/nosuid 具有/不具有SUID权限，设定文件系统是否具有SUID和SGID的权
+        限，默认是具有
+        user/nouser 允许/不允许普通用户挂载，设定文件系统是否允许普通用户挂载，
+        默认是不允许，只有root可以挂载分区
+        usrquota 写入代表文件系统支持用户磁盘配额，默认不支持
+        grpquota 写入代表文件系统支持组磁盘配额，默认不支持
+
+        [root@localhost ~]# mount -o remount,noexec /home
+        #重新挂载/boot分区，并使用noexec权限
+        [root@localhost sh]# cd /home
+        [root@localhost boot]# vi hello.sh
+        [root@localhost boot]# chmod 755 hello.sh
+        [root@localhost boot]# ./hello.sh
+        [root@localhost boot]# mount -o remount,exec /home
+        #记得改回来啊，要不会影响系统启动的
+
+--挂载光盘与U盘
+    1、挂载光盘
+        [root@localhost ~]# mkdir /mnt/cdrom/
+        #建立挂载点
+        [root@localhost ~]# mount -t iso9660 /dev/cdrom /mnt/cdrom/
+        #挂载光盘
+        [root@localhost ~]# mount /dev/sr0 /mnt/cdrom/
+    2、卸载命令
+        [root@localhost ~]# umount 设备文件名或挂载点
+        [root@localhost ~]# umount /mnt/cdrom
+    3、挂载U盘
+        [root@localhost ~]# fdisk –l
+        #查看U盘设备文件名
+        [root@localhost ~]# mount -t vfat /dev/sdb1 /mnt/usb/
+        注意：Linux默认是不支持NTFS文件系统的
+
+--支持NTFS文件系统
+    1、下载NTFS-3G插件
+        http://www.tuxera.com/community/ntfs-3gdownload/
+    2、安装NTFS-3G
+        [root@localhost ~]# tar -zxvf ntfs-3g_ntfsprogs-2013.1.13.tgz
+        #解压
+        [root@localhost ~]# cd ntfs-3g_ntfsprogs-2013.1.13
+        #进入解压目录
+        [root@localhost ntfs-3g_ntfsprogs-2013.1.13]# ./configure
+        #编译器准备。没有指定安装目录，安装到默认位置中
+        [root@localhost ntfs-3g_ntfsprogs-2013.1.13]# make
+        #编译
+        [root@localhost ntfs-3g_ntfsprogs-2013.1.13]# make install
+        #编译安装
+    3、使用
+        [root@localhost ~]# mount -t ntfs-3g 分区设备文件名 挂载点
+
+--fdisk命令分区过程
+    1、添加新硬盘
+    2、查看新硬盘
+       [root@localhost ~]# fdisk -l
+    3、使用fdisk命令分区
+        [root@localhost ~]# fdisk /dev/sdb
+
+    fdisk交互指令说明
+        a 设置可引导标记
+        b 编辑bsd磁盘标签
+        c 设置DOS操作系统兼容标记
+        d 删除一个分区
+        l 显示已知的文件系统类型。82为Linux swap分区，83为Linux分区
+        m 显示帮助菜单
+        n 新建分区
+        o 建立空白DOS分区表
+        p 显示分区列表
+        q 不保存退出
+        s 新建空白SUN磁盘标签
+        t 改变一个分区的系统ID
+        u 改变显示记录单位
+        v 验证分区表
+        w 保存退出
+        x 附加功能（仅专家）
+
+    4、重新读取分区表信息
+        [root@localhost ~]# partprobe
+    5、格式化分区
+        [root@localhost ~]# mkfs -t ext4 /dev/sdb1
+    6、建立挂载点并挂载
+        [root@localhost ~]# mkdir /disk1
+        [root@localhost ~]# mount /dev/sdb1 /disk1/
+
+--分区自动挂载与fstab文件修复
+    1、/etc/fstab文件
+         第一字段：分区设备文件名或UUID（硬盘通用唯一识别
+        码）
+         第二字段：挂载点
+         第三字段：文件系统名称
+         第四字段：挂载参数
+         第五字段：指定分区是否被dump备份，0代表不备份，1
+        代表每天备份，2代表不定期备份
+         第六字段：指定分区是否被fsck检测，0代表不检测，其
+        他数字代表检测的优先级，那么当然1的优先级比2高
+    2、分区自动挂载
+        [root@localhost ~]# vi /etc/fstab
+        …省略部分输出…
+        /dev/sdb5 /disk5 ext4 defaults 1 2
+    3、/etc/fstab文件修复
+        [root@localhost ~]# mount -o remount,rw /
+
+--分配swap分区
+    1、新建swap分区
+       [root@localhost ~]# fdisk /dev/sdb
+      别忘记把分区ID改为82
+    2、格式化
+      [root@localhost ~]# mkswap /dev/sdb1
+    3、加入swap分区
+        [root@localhost ~]# swapon /dev/sdb1
+        #加入swap分区
+        [root@localhost ~]# swapoff /dev/sdb1
+        #取消swap分区
+    4、swap分区开机自动挂载
+        [root@localhost ~]# vi /etc/fstab
+        /dev/sdb1 swap swap defaults 0 0
+    5、free命令
+        [root@localhost ~]# free
+        #查看内存与swap分区使用状况
+         cached（缓存）：是指把读取出来的数据保存在内存当
+        中，当再次读取时，不用读取硬盘而直接从内存当中读
+        取，加速了数据的读取过程
+         buffer（缓冲）：是指在写入数据时，先把分散的写入操
+        作保存到内存当中，当达到一定程度再集中写入硬盘，
+        减少了磁盘碎片和硬盘的反复寻道，加速了数据的写入
+        过程
+
+--Shell概述
+    1、Shell是什么
+         Shell是一个命令行解释器，它为用户提供了一个向Linux内核发送请求以便运行程
+        序的界面系统级程序，用户可以用Shell来启动、挂起、停止甚至是编写一些程序。
+         Shell还是一个功能相当强大的编程语言，易编写，易调试，灵活性较强。Shell是解
+        释执行的脚本语言，在Shell中可以直接调用Linux系统命令。
+
+    2、Shell的分类
+        Bourne Shell：从1979起Unix就开始使用Bourne Shell，Bourne Shell的主文件名为sh。
+         C Shell： C Shell主要在BSD版的Unix系统中使用，其语法和C语言相类似而得名
+         Shell的两种主要语法类型有Bourne和C，这两种语法彼此不兼容。Bourne家族主要
+包括sh、ksh、Bash、psh、zsh；C家族主要包括：csh、tcsh
+         Bash： Bash与sh兼容，现在使用的Linux就是使用Bash作为用户的基本Shell。
+    3、Linux支持的Shell
+         /etc/shells
+
+--Shell脚本的执行方式
+    1、echo输出命令
+         [root@localhost ~]# echo [选项] [输出内容]
+    选项：
+        -e： 支持反斜线控制的字符转换
+
+        控制字符 作 用
+        \\ 输出\本身
+        \a 输出警告音
+        \b 退格键，也就是向左删除键
+        \c 取消输出行末的换行符。和“-n”选项一致
+        \e ESCAPE键
+        \f 换页符
+        \n 换行符
+        \r 回车键
+        \t 制表符，也就是Tab键
+        \v 垂直制表符
+        \0nnn 按照八进制ASCII码表输出字符。其中0为数字零，nnn是三位八进
+        制数
+        \xhh 按照十六进制ASCII码表输出字符。其中hh是两位十六进制数
+
+        [root@localhost ~]# echo -e "ab\bc"
+        #删除左侧字符
+        [root@localhost ~]# echo -e "a\tb\tc\nd\te\tf"
+        #制表符与换行符
+        [root@localhost ~]# echo -e \
+        "\x61\t\x62\t\x63\n\x64\t\x65\t\x66"
+        #按照十六进制ASCII码也同样可以输出
+        [root@localhost ~]# echo -e "\e[1;31m abcd \e[0m"
+        #输出颜色
+        #30m=黑色，31m=红色，32m=绿色，33m=黄色
+        #34m=蓝色，35m=洋红，36m=青色，37m=白色
+
+    2、第一个脚本
+        [root@localhost sh]# vi hello.sh
+        #!/bin/Bash
+        #The first program
+        # Author: shenchao （E-mail: shenchao@lampbrother.net）
+        echo -e "Mr. Shen Chao is the most honest man in
+        LampBrother"
+    3、脚本执行
+         赋予执行权限，直接运行
+             chmod 755 hello.sh
+             ./hello.sh
+         通过Bash调用执行脚本
+             bash hello.sh
+
+--Bash的基本功能
+--历史命令与命令补全
+    1、历史命令
+    [root@localhost ~]# history [选项] [历史命令保存文件]
+    选项：
+        -c： 清空历史命令
+        -w： 把缓存中的历史命令写入历史命令保存文件
+        ~/.bash_history
+     历史命令默认会保存1000条,可以在环境
+    变量配置文件/etc/profile中进行修改
+
+    历史命令的调用
+         使用上、下箭头调用以前的历史命令
+         使用“!n”重复执行第n条历史命令
+         使用“!!”重复执行上一条命令
+         使用“!字串”重复执行最后一条以该字
+        串开头的命令
+
+    2、命令与文件补全
+     在Bash中，命令与文件补全是非常方便与
+    常用的功能，我们只要在输入命令或文件
+    时，按“Tab”键就会自动进行补全
+
+--命令别名与常用快捷键
+    1、命令别名
+    [root@localhost ~]# alias 别名='原命令'
+    #设定命令别名
+    [root@localhost ~]# alias
+    #查询命令别名
+
+    命令执行时顺序
+    1 第一顺位执行用绝对路径或相对路径执行的命令。
+    2 第二顺位执行别名。
+    3 第三顺位执行Bash的内部命令。
+    4 第四顺位执行按照$PATH环境变量定义的目录查找顺序找到的第一个命令。
+
+    让别名永久生效
+    [root@localhost ~]# vi /root/.bashrc
+
+    删除别名
+    [root@localhost ~]# unalias 别名
+
+    2、Bash常用快捷键
+        ctrl+A 把光标移动到命令行开头。如果我们输入的命令过长，想要把光标移动到命令行开头时使用。
+        ctrl+E 把光标移动到命令行结尾。
+        ctrl+C 强制终止当前的命令。
+        ctrl+L 清屏，相当于clear命令。
+        ctrl+U 删除或剪切光标之前的命令。我输入了一行很长的命令，不用使用退格键一个一个字符的删除，使用这个快捷键会更加方便
+        ctrl+K 删除或剪切光标之后的内容。
+        ctrl+Y 粘贴ctrl+U或ctrl+K剪切的内容。
+        ctrl+R 在历史命令中搜索，按下ctrl+R之后，就会出现搜索界面，只要输入搜索内容，就会从历史命令中搜索。
+        ctrl+D 退出当前终端。
+        ctrl+Z 暂停，并放入后台。这个快捷键牵扯工作管理的内容，我们在系统管理章节详细介绍。
+        ctrl+S 暂停屏幕输出。
+        ctrl+Q 恢复屏幕输出。
+
+--输入输出重定向
+
+    1、标准输入输出
+        设备      设备文件名       文件描述符       类型
+        键盘      /dev/stdin          0           标准输入
+        显示器     /dev/sdtout         1           标准输出
+        显示器     /dev/sdterr         2           标准错误输出
+
+    2、输出重定向
+        标准输出重定向:
+            命令 > 文件          以覆盖的方式，把命令的正确输出输出到指定的文件或设备当中。
+            命令 >> 文件        以追加的方式，把命令的正确输出输出到指定的文件或设备当中。
+
+        标准错误输出重定向:
+            错误命令 2>文件       以覆盖的方式，把命令的错误输出输出到指定的文件或设备当中。
+            错误命令 2>>文件      以追加的方式，把命令的错误输出输出到指定的文件或设备当中。
+
+        正确输出和错误输出同时保存:
+            命令 > 文件 2>&1    以覆盖的方式，把正确输出和错误输出都保存到同一个文件当中。
+            命令 >> 文件 2>&1   以追加的方式，把正确输出和错误输出都保存到同一个文件当中。
+            命令 &>文件     以覆盖的方式，把正确输出和错误输出都保存到同一个文件当中。
+            命令 &>>文件    以追加的方式，把正确输出和错误输出都保存到同一个文件当中。
+            命令>>文件1 2>>文件2      把正确的输出追加到文件1中，把错误的输出追加到文件2中。
+
+    3、输入重定向
+        [root@localhost ~]# wc [选项] [文件名]
+        选项：
+            -c 统计字节数
+            -w 统计单词数
+            -l 统计行数
+
+        命令<文件 把文件作为命令的输入
+        命令<< 标识符
+        …
+        标识符 把标识符之间内容作为 命令的输入
+
+
+
 ifconfig eth0 192.168.118.2  临时更改IP，重启后会失效
 /boot/ 这个目录如果写满了，系统将无法启动，并且最好 将这个目录做一下备份
 
