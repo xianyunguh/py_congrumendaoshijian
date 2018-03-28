@@ -40,7 +40,7 @@
     1、基于Linux的企业服务器
         www.netcraft.com (一个扫描服务器信息的网站）
     2、Linux在嵌入式领域
-        1）手机、平板电脑
+        1）手机、平板电脑       （quicksshd可将安卓手机打造成ssh服务器）
         2）其他嵌入式应用
             智能家电：机顶盒、游戏机、数码相机等
             智能卡系统
@@ -230,6 +230,7 @@
             -a    显示所有文件，包括隐藏文件
             -l    详细信息显示
             -d    只查看目录属性,不显示所含文件
+            -i    查看文件ID号
     -rw-r--r--
         - 文件类型（- 文件 ，d 目录 ，l 软链接文件）
         rw- r--	r-- （三组分别对应 u所有者 g所属组 o其他人 r读 w写 x执行）
@@ -585,6 +586,14 @@
     功能描述：在文件资料库中查找文件
     范例：$ locate inittab
 
+    locate 查找时并不像find一样遍历整个搜索范围，而是在资料库中寻找，系统中所有的
+    文件都会被定期更新到这个资料库中，所以速度很快，类似于windows里面的everything。
+    这个资料库是由locate来维护，存放在 /var/lib/mlocate/mlocate.db，新建文件是找
+    不到的。
+    updatedb命令可更新locate资料库，但/tmp 文件夹不在locate收录范围
+
+    locate -i 文件名   其中i选项是不区分大小写
+
 --文件搜索命令：which
     命令名称：which
     命令所在路径：/usr/bin/which
@@ -592,6 +601,10 @@
     语法：which 命令
     功能描述：搜索命令所在目录及别名信息
     范例：$ which ls
+
+    除了能找到命令的绝对路径，还能找到对应的别名
+    执行命令时，系统首先找的是别名。
+
 
 --文件搜索命令：whereis
     命令名称：whereis
@@ -607,9 +620,13 @@
     执行权限：所有用户
     语法：grep -iv [指定字串] [文件]
     功能描述：在文件中搜寻字串匹配的行并输出
-            -i 不区分大小写
-            -v 排除指定字串
+              -i 不区分大小写
+              -v 排除指定字串
     范例：# grep mysql /root/install.log
+          # grep multiuser /etc/inittab
+          # grep -i multiuser /etc/inittab
+          # grep -v # /etc/inittab  排除所有带有 # 的行
+          # grep -v ^# /etc/inittab   （ ^ 表示行首） 排除所有行首带 # 的行
 
 --帮助命令：man
     命令名称：man
@@ -617,9 +634,44 @@
     命令所在路径：/usr/bin/man
     执行权限：所有用户
     语法：man [命令或配置文件]
-    功能描述：获得帮助信息
+          q退出
+          空格翻页
+          回车一行行翻
+          其实是调用more命令来进行浏览
+          /关键字  可以查询某个关键字，按n键可以查看下一个
+    功能描述：获命令或配置文件的帮助信息
     范例：$ man ls    查看ls命令的帮助信息
-    $ man services    查看配置文件services的帮助信息
+          $ man services    查看配置文件services的帮助信息
+
+    常见作用：
+        如果是命令：看 NAME(作用）  和  /选项  这两项
+        如果是配置文件： 看 NAME(配置文件存放的信息）    还要看  文件格式
+
+    /etc/services  存放的是所有网络服务配置信息
+    $ whereis passwd
+    上面的命令执行结果有man1、man5两个帮助文件
+    man1  命令的帮助
+    man5  配置文件的帮助
+    而man命令默认优先显示 命令 帮助，如果想看配置文件的帮助，则如下所示：
+    man 5 passwd
+
+    只看命令是干什么用的：
+        whatis 命令名
+        例如：whatis ls
+
+    只看配置文件是干什么用的：
+        apropos 配置文件
+        例如：
+        apropos services
+        apropos inittab
+
+    只看主要选项：
+        例如：touch --help
+
+    通过帮助可知date命令修改时间的格式：
+        date 031410272014.18   月-日-小时-分钟-年.秒
+
+    另一个帮助命令：info    # 跟man大同小异
 
 --帮助命令：help
     命令名称：help
@@ -628,6 +680,11 @@
     语法：help 命令
     功能描述：获得Shell内置命令的帮助信息
     范例：$ help umask    查看umask命令的帮助信息
+
+    shell 也就是我们平时用的终端，被称做“命令解释器”。
+    用whereis 或 which 找不到路径的命令是内置命令，也就是shell内置的命令，这些
+    命令必须用help来查看帮助
+    而   man 内置命令   # 得到的实际上是shell的帮助
 
 --用户管理命令：useradd
     命令名称：useradd
@@ -644,6 +701,11 @@
     语法：passwd 用户名
     功能描述：设置用户密码
     范例： $ passwd yangmi
+    root 给用户设置简单密码，系统能接受，而普通用户如果给用户设置简单密码系统是不会接受的，必须符合密码复杂度的要求。
+    普通用户只能更改自己的密码。
+
+    如何设置好记的复杂密码：
+        ShenChao   e--@  abcd--1234   Sh@n3h1o
 
 --用户管理命令：who
     命令名称：who
@@ -652,6 +714,15 @@
     语法：who
     功能描述：查看登录用户信息
     范例： $ who
+    解释：
+        xianyunguh tty2         2018-03-17 13:43
+        xianyunguh :0           2018-03-17 13:43 (:0)
+        xianyunguh pts/1        2018-03-28 09:12 (192.168.2.11)
+
+        xianyunguh  登陆用户名
+        tty2        登陆终端  tty是指本地终端（本地登陆）   	pts远程终端
+        2018-03-17  登陆时间
+        192.168.2.11    登陆IP(没有就是本机登陆）
 
 --用户管理命令：w
     命令名称：w
@@ -660,6 +731,34 @@
     语法：w
     功能描述：查看登录用户详细信息
     范例： $ w
+    解释：
+    $ w
+         15:18:45 up 11 days,  1:40,  3 users,  load average: 0.00, 0.01, 0.05
+        USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+        xianyung tty2                      173月18  9days  0.12s  0.12s -bash
+        xianyung :0       :0               173月18 ?xdm?  32:02   4.99s /usr/libexec/gno
+        xianyung pts/1    192.168.2.11     09:12    5.00s  0.17s  0.23s sshd: xianyunguh
+
+        其中：
+
+        15:18:45	当前系统时间
+        up 11 days	连续运行了多长时间	（uptime 可以看到相似信息）
+        3 users		当前一共有几个用户登陆
+
+        load average: 0.00, 0.01, 0.05      cpu负载均衡指数。
+        其中0.00, 0.01, 0.05 记录了1分钟、5分钟、15分钟系统的负载情况，一般数值
+        越大，负载越重（也不完全是这样），数据是每隔5秒钟检查一次活跃的进程数，然
+        后根据这个数值算出来的。如果这个数除以CPU的数目，结果高于5的时候就表明系
+        统在超负荷运转了。
+
+        User：登录用户名
+        TTY：登录后系统分配的终端号
+        From：远程主机名，即从哪登录的
+        login@：何时登录
+        IDLE：用户空闲时间。这是个计时器，一旦用户执行任何操作，改计时器就会被重置。
+        JCPU：和终端连接的所有进程(累计)占用时间。包括当前正在运行的后台作业占用时间
+        PCPU：当前进程所占用时间 (当前命令占用CPU的时间)
+        WHAT：当前正在运行进程的命令行 (用户正在执行的操作)
 
 --压缩解压命令：gzip
     命令名称：gzip
@@ -2054,7 +2153,12 @@ ESC键：
 ifconfig eth0 192.168.118.2  临时更改IP，重启后会失效
 /boot/ 这个目录如果写满了，系统将无法启动，并且最好 将这个目录做一下备份
 
+CentOS 7关闭图形桌面开启文本界面：
+    1，命令模式
+    systemctl set-default multi-user.target
 
+    2,图形模式
+    systemctl set-default graphical.target
 
 
 
