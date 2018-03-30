@@ -314,6 +314,7 @@
     范例：
         $ rm /tmp/yum.log        删除文件/tmp/yum.log
         $ rm -rf /tmp/Japan/longze        删除目录/tmp/Japan/longze
+        $ rm -rf *  删除当前目录下所有文件
 
 --文件处理命令：touch
     命令名称：touch
@@ -603,6 +604,9 @@
     范例：$ which ls
 
     除了能找到命令的绝对路径，还能找到对应的别名
+    $ which rm
+      alias rm='rm -i'
+	        /usr/bin/rm
     执行命令时，系统首先找的是别名。
 
 
@@ -622,11 +626,15 @@
     功能描述：在文件中搜寻字串匹配的行并输出
               -i 不区分大小写
               -v 排除指定字串
+              -n 显示行号
     范例：# grep mysql /root/install.log
           # grep multiuser /etc/inittab
           # grep -i multiuser /etc/inittab
-          # grep -v # /etc/inittab  排除所有带有 # 的行
+          # grep -v '#' /etc/inittab  排除所有带有 # 的行 我自己测试的没引号不行
           # grep -v ^# /etc/inittab   （ ^ 表示行首） 排除所有行首带 # 的行
+
+    需要排除 abc.txt 中的  mmm   nnn
+        grep -v 'mmm\|nnn' abc.txt
 
 --帮助命令：man
     命令名称：man
@@ -639,11 +647,11 @@
           回车一行行翻
           其实是调用more命令来进行浏览
           /关键字  可以查询某个关键字，按n键可以查看下一个
-    功能描述：获命令或配置文件的帮助信息
+    功能描述：获取命令或配置文件的帮助信息
     范例：$ man ls    查看ls命令的帮助信息
           $ man services    查看配置文件services的帮助信息
 
-    常见作用：
+    常见使用：
         如果是命令：看 NAME(作用）  和  /选项  这两项
         如果是配置文件： 看 NAME(配置文件存放的信息）    还要看  文件格式
 
@@ -701,7 +709,8 @@
     语法：passwd 用户名
     功能描述：设置用户密码
     范例： $ passwd yangmi
-    root 给用户设置简单密码，系统能接受，而普通用户如果给用户设置简单密码系统是不会接受的，必须符合密码复杂度的要求。
+    root 给用户设置简单密码，系统能接受，而普通用户如果给用户设置简单密码系统是不
+    会接受的，必须符合密码复杂度的要求。
     普通用户只能更改自己的密码。
 
     如何设置好记的复杂密码：
@@ -766,8 +775,14 @@
     命令所在路径：/bin/gzip
     执行权限：所有用户
     语法：gzip [文件]
+    选项：-d   解压文件
     功能描述：压缩文件
     压缩后文件格式：.gz
+    注意：gzip只能压缩文件，不能压缩目录，并且压缩完成后不保留原文件
+          如果是解压，那么解压后，原压缩文件也不会保留。
+
+    $ gzip testfile         生成testfile.gz压缩包
+    $ gzip -d testfile.gz   解压后，testfile.gz被自动删除
 
 --压缩解压命令：gunzip
     命令名称：gunzip
@@ -776,7 +791,7 @@
     执行权限：所有用户
     语法：gunzip [压缩文件]
     功能描述：解压缩.gz的压缩文件
-    范例： $ gunzip boduo.gz
+    范例： $ gunzip boduo.gz    解压后，boduo.gz被自动删除
 
 --压缩解压命令：tar
     命令名称：tar
@@ -790,7 +805,9 @@
     功能描述：打包目录
     压缩后文件格式：.tar.gz
     范例：
-        $ tar -zcf Japan.tar.gz Japan
+        $ tar -cvf japan.tar japan    这只是打包,并不会压缩
+        $ gzip japan.tar  将用tar打包的文件进行压缩
+        $ tar -zcfv Japan.tar.gz Japan
         将目录Japan打包并压缩为.tar.gz文件
 
     tar命令解压缩语法：
@@ -826,21 +843,24 @@
     命令所在路径：/usr/bin/bzip2
     执行权限：所有用户
     语法： bzip2 选项[-k] [文件]
-            -k 产生压缩文件后保留原文件
+           -k 产生压缩文件后保留原文件
     功能描述：压缩文件
     压缩后文件格式：.bz2
     范例：$ bzip2 -k boduo
-         $ tar -cjf Japan.tar.bz2 Japan
+          $ tar -cjf Japan.tar.bz2 Japan
+
+    bzip2是gz的升级版，压缩比更高，可保留原文件，推荐使用，一般用来压缩一些大文件。
+    tar可以跟bz2联合使用，选项 -j
 
 --压缩解压命令：bunzip2
     命令名称：bunzip2
     命令所在路径：/usr/bin/bunzip2
     执行权限：所有用户
     语法： bunzip2 选项[-k] [压缩文件]
-            -k 解压缩后保留原文件
+           -k 解压缩后保留原文件
     功能描述：解压缩
     范例：$ bunzip2 -k boduo.bz2
-           $ tar -xjf Japan.tar.bz2
+          $ tar -xjf Japan.tar.bz2
 
 --网络命令：write
     指令名称：write
