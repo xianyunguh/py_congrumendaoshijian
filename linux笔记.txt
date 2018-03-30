@@ -867,7 +867,9 @@
     指令所在路径：/usr/bin/write
     执行权限：所有用户
     语法：write <用户名>
+         ctrl+退格，或者delete   向左删除
     功能描述：给用户发信息，以Ctrl+D保存结束
+    前提：用户要登陆到这台服务器上,如果用户不在线，信息是发不出去的。
     范例： # write linzhiling
 
 --网络命令：wall
@@ -876,7 +878,7 @@
     指令所在路径：/usr/bin/wall
     执行权限：所有用户
     语法：wall [message]
-    功能描述：发广播信息
+    功能描述：（给当前在线的所有用户发送信息）发广播信息
     范例： # wall ShenChao is a honest man!
 
 --网络命令：ping
@@ -885,8 +887,19 @@
     执行权限：所有用户
     语法：ping 选项IP地址
         -c 指定发送次数
-    功能描述：测试网络连通性
+    功能描述：测试网络连通性，不用加参数就会一直ping
     范例： # ping 192.168.1.156
+           # ping -c 3 192.168.2.11      ping 3次
+
+        PING 192.168.2.11 (192.168.2.11) 56(84) bytes of data.
+        64 bytes from 192.168.2.11: icmp_seq=1 ttl=64 time=0.386 ms
+        64 bytes from 192.168.2.11: icmp_seq=2 ttl=64 time=0.305 ms
+
+        --- 192.168.2.11 ping statistics ---
+        3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+        rtt min/avg/max/mdev = 0.305/0.333/0.386/0.040 ms
+
+        0% packet loss    丢包率
 
 --网络命令：ifconfig
     命令名称：ifconfig
@@ -895,15 +908,26 @@
     执行权限：root
     语法：ifconfig 网卡名称IP地址
     功能描述：查看和设置网卡信息
-    范例：# ifconfig eth0 192.168.8.250
+    范例：# ifconfig eth0 192.168.8.250    临时设置ip,重启后会丢失
+
+    enp1s0 代表本地真实网卡 （马哥教程上是eth0) ，如果有第二块网卡就是（enpls1
+    或 eth1 这是我自己猜的，对错未知）
+    lo  回环网卡，用来本机通讯或测试，地址都是127.0.0.1
+
 
 --网络命令：mail
     命令名称：mail
     命令所在路径：/bin/mail
     执行权限：所有用户
     语法：mail [用户名]
+          h 查看邮件列表
+          d 后面跟邮件序列号可以删除邮件
+          q 退出
+          一般系统发的邮件是比较重要的，应该仔细地去查看。
     功能描述：查看发送电子邮件
     范例：# mail root
+          mail 后面什么都不跟，就是接收邮件，输入邮件序列号就可以查看邮件内容
+
 
 --网络命令：last
     命令名称：last
@@ -920,7 +944,9 @@
     语法：lastlog
     功能描述：检查某特定用户上次登录的时间
     范例：  # lastlog
-            # lastlog -u 502
+            # lastlog -u 502    只查看用户Uid为502的登陆信息
+
+    still logged in  依然在线的用户（这是解释，不是命令）
 
 --网络命令：traceroute
     命令名称：traceroute
